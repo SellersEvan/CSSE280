@@ -15,7 +15,50 @@
 <html>
     <head>
         <title>Hello World</title>
-        <link rel="stylesheet" type="text/css" href="style.css" />
+        <!-- <link rel="stylesheet" type="text/css" href="style.css" /> -->
+        <style>
+            body {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                margin: 0;
+            }
+
+            #main-container {
+                margin-top: 2rem;
+                max-width: 1200px;
+            }
+
+            #foo-container {
+                border: 2px grey solid;
+                padding: 1rem 1rem;
+                border-radius: 0.4rem;
+                background-color: black;
+            }
+
+            #foo-container .foo-text {
+                color: white;
+                margin: 0.5rem 0.2rem;
+                font-size: 1.1rem;
+                font-weight: 300;
+                font-family: 'Courier New', Courier, monospace;
+            }
+
+            button {
+                background-color: #148ff5;
+                color: white;
+                font-family: Arial, Helvetica, sans-serif;
+                border: none;
+                border-radius: 0.3rem;
+                padding: 1rem 1.5rem;
+                transition: background-color 0.4s;
+            }
+
+            button:hover {
+                background-color: darkslategray;
+            }
+        </style>
     </head>
 
     <body>
@@ -46,5 +89,12 @@
         </div>
     </body>
 
-    <script src="script.js"></script>
+    <!-- <script src="script.js"></script> -->
+    <script>
+        console.log( "Hello World" );                                           // notify that the script has started
+        document.querySelector( "#BtnSendAlert" )
+            .addEventListener( "click", () => {
+                alert( "We need your attention!!" );
+        });
+    </script>
 </html>
