@@ -11,18 +11,16 @@
  *
  */
 
-document.addEventListener( "DOMContentLoaded", () => {
-    new counter(
-        document.querySelector( "#actionIncrementCounter1" ),
-        document.querySelector( "#actionDecreaseCounter1" ),
-        document.querySelector( "#actionResetCounter1" ),
-        document.querySelector( "#contentCounterNumber1" )
-    );
-    
-    new counter(
-        document.querySelector( "#actionIncrementCounter2" ),
-        document.querySelector( "#actionDecreaseCounter2" ),
-        document.querySelector( "#actionResetCounter2" ),
-        document.querySelector( "#contentCounterNumber2" )
-    );
-});
+new counter(
+    document.querySelector( "#actionIncrementCounter1" ),
+    document.querySelector( "#actionDecreaseCounter1" ),
+    document.querySelector( "#actionResetCounter1" ),
+    document.querySelector( "#contentCounterNumber1" )
+);
+
+new counter(
+    document.querySelector( "#actionIncrementCounter2" ),
+    document.querySelector( "#actionDecreaseCounter2" ),
+    document.querySelector( "#actionResetCounter2" ),
+    document.querySelector( "#contentCounterNumber2" )
+);
