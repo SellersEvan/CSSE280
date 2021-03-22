@@ -1,0 +1,14 @@
+body {
+    background: white;
+}
+
+.navbar {
+    background-color: white;
+    color: black !important;
+    box-shadow: none;
+    border-bottom: 1px rgba( 0, 0, 0, 0.05 ) solid;
+}
+
+.page-container {
+    margin-top: 75px;
+}
