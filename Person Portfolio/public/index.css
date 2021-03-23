@@ -1,0 +1,22 @@
+body .content#hero {
+    text-align: center;
+    margin-top: 20vh;
+    max-width: 600px;
+}
+
+body .content#hero h1 {
+    font-weight: 100;
+    color: rgb(48, 48, 48);
+}
+
+body .content#hero h1 b {
+    color: #000;
+}
+
+body .content#hero img {
+    border-radius: 10%;
+    width: 10vw;
+    height: 10vw;
+    min-width: 200px;
+    min-height: 200px;
+}
