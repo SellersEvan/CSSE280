@@ -11,6 +11,8 @@
  *
  */
 
+
+// Scroll Navbar
 window.addEventListener( "scroll", ( event ) => {
     if ( this.scrollY >= 100 ) {
         document.querySelector( ".navigation" ).classList.add( "shadow" );
@@ -19,4 +21,5 @@ window.addEventListener( "scroll", ( event ) => {
     }
 });
 
+// Modal Startup
 modal.init();

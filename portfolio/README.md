@@ -1,4 +1,0 @@
-- does it need a bootstrap component
-- favicon
-- responsive images
-- responsive flexboxes
