@@ -16,6 +16,7 @@ body .navigation {
     width: 100%;
     backdrop-filter: blur(20px);
     transition: box-shadow 1s;
+    z-index: 99;
 }
 
 @media only screen and (min-width: 800px) {

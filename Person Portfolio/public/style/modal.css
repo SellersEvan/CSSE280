@@ -58,6 +58,7 @@ modal {
 	pointer-events: none;
 	transition: transform .3s ease-out,-webkit-transform .3s ease-out, opacity 0.2s linear 0.1s;
 	opacity: 0;
+	max-width: 500px;
 }
   
 
