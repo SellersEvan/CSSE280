@@ -1,8 +1,3 @@
-AOS.init({
-    easing: 'ease-out-cubic',
-    once: true,
-    offset: 50
-});
 
 window.addEventListener( "scroll", ( event ) => {
     if ( this.scrollY >= 100 ) {
@@ -11,3 +6,5 @@ window.addEventListener( "scroll", ( event ) => {
         document.querySelector( ".navigation" ).classList.remove( "shadow" );
     }
 });
+
+modal.init();

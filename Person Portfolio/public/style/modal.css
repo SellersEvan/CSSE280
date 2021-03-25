@@ -1,0 +1,77 @@
+/*
+ *   Edited by Evan Sellers <sellersew@gmail.com> on
+ *   behalf of Rose-Hulman Institute of Technology
+ *
+ *   author: Evan Sellers <sellersew@gmail.com>
+ *   date: Thu Mar 25 2021
+ *   original: N/A
+ *   file: modal.css
+ *   project: Personal Portfolio
+ *   purpose: Modal CSS
+ *
+ */
+
+
+/* modal Shade */
+.modal-shade {
+    position: fixed;
+    opacity: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1040;
+    background-color: #000;
+    pointer-events: none;
+}
+  
+.modal-shade.show {
+    opacity: 0.5;
+    pointer-events: auto;
+}
+  
+.modal-shade.fade {
+    transition: opacity .15s linear;
+    transition-delay: 0.3s;
+}
+  
+.modal-shade.fade.show {
+    transition-delay: 0s;
+}
+
+  
+  
+/* Modal */
+modal {
+	position: fixed;
+	z-index: 1050;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -75%); /* for fade down animation */
+	-webkit-transform: translate(-50%, -75%); /* for fade down animation */
+	max-width: 80%;
+	max-height: 80vh;
+	width: fit-content;
+	background: white;
+	border-radius: 10px;
+	overflow-y: unset;
+	pointer-events: none;
+	transition: transform .3s ease-out,-webkit-transform .3s ease-out, opacity 0.2s linear 0.1s;
+	opacity: 0;
+}
+  
+
+  
+modal.open {
+	transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);
+	opacity: 1;
+	pointer-events: auto;
+	transition-delay: 0.2s;
+}
+  
+
+modal .modal-body {
+	padding: 20px;
+}
+  
