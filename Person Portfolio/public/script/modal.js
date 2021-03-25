@@ -25,7 +25,12 @@ class modal {
         document.getElementsByClassName( "modal-shade" )[ 0 ]
             .addEventListener( "click", () => {
                 this.close();
-        });    
+        });
+        document.querySelectorAll( ".open-modal" ).forEach( ( element ) => {
+            element.addEventListener( "click", () => {
+                this.open( element.dataset[ "modal" ] )
+            });
+        });
     }
 
 
