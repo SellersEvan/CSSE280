@@ -1,0 +1,35 @@
+/*
+ *   Edited by Evan Sellers <sellersew@gmail.com> on
+ *   behalf of Rose-Hulman Institute of Technology
+ *
+ *   author: Evan Sellers <sellersew@gmail.com>
+ *   date: Wed Mar 24 2021
+ *   original: N/A
+ *   file: resume.css
+ *   project: Personal Portfolio
+ *   purpose: Custom CSS Resume Page
+ *
+ */
+
+
+section {
+    margin: 20vw 0;
+}
+
+section#introduction {
+    margin: 30vh 0 60vh 0;
+}
+
+.listing ul {
+    margin-block-start: 0;
+    padding-inline-start: 20px;
+}
+
+.listing .list {
+    margin-right: 3rem;
+}
+
+.listing .list .list-title {
+    margin-bottom: 0.5rem;
+}
+

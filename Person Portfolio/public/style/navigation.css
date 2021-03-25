@@ -14,8 +14,8 @@
 body .navigation {
     background: var(--opacity-background);
     width: 100%;
-    box-shadow: var(--shadow);
     backdrop-filter: blur(20px);
+    transition: box-shadow 1s;
 }
 
 @media only screen and (min-width: 800px) {
@@ -23,6 +23,10 @@ body .navigation {
         position: sticky;
         top: 0;
     }
+}
+
+body .navigation.shadow {
+    box-shadow: var(--shadow);
 }
 
 body .navigation .item {
