@@ -1,0 +1,51 @@
+/*
+ *   Edited by Evan Sellers <sellersew@gmail.com> on
+ *   behalf of Rose-Hulman Institute of Technology
+ *
+ *   author: Evan Sellers <sellersew@gmail.com>
+ *   date: Wed Mar 24 2021
+ *   original: N/A
+ *   file: container.css
+ *   project: Personal Portfolio
+ *   purpose: Container and Flex CSS File
+ *
+ */
+
+
+body .container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+@media only screen and (max-width: 1200px) {
+    body .container {
+        max-width: 800px;
+    }
+}
+
+body .container.cw-800 {
+    max-width: 800px;
+    margin: auto;
+}
+
+body .flex {
+    display: flex;
+}
+
+body .flex.flex-justify-center {
+    justify-content: center;
+}
+
+body .flex.flex-wrap {
+    flex-wrap: wrap;
+}
+
+body .flex .spacer {
+    flex-grow: 1;
+}
+
+@media only screen and (max-width: 600px) {
+    body .flex .spacer {
+        width: 100%;
+    }
+}

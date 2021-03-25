@@ -1,0 +1,26 @@
+/*
+ *   Edited by Evan Sellers <sellersew@gmail.com> on
+ *   behalf of Rose-Hulman Institute of Technology
+ *
+ *   author: Evan Sellers <sellersew@gmail.com>
+ *   date: Wed Mar 24 2021
+ *   original: N/A
+ *   file: index.css
+ *   project: Personal Portfolio
+ *   purpose: Custom CSS Home Page
+ *
+ */
+
+
+#profile-image {
+    max-width: min( 400px, 80vw );
+    width: 30vh;
+    margin: 10vh 0vh 5vh 0vh;
+    border-radius: 1rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+#profile-image:hover {
+    box-shadow: var(--shadow);
+    transform: scale(1.1);
+}

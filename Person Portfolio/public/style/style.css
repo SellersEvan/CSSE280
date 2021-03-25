@@ -1,0 +1,70 @@
+/*
+ *   Edited by Evan Sellers <sellersew@gmail.com> on
+ *   behalf of Rose-Hulman Institute of Technology
+ *
+ *   author: Evan Sellers <sellersew@gmail.com>
+ *   date: Wed Mar 24 2021
+ *   original: N/A
+ *   file: style.css
+ *   project: Personal Portfolio
+ *   purpose: Core Header CSS File
+ *
+ */
+
+
+body {
+    font-family: "Quicksand", DM Sans, Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.6rem;
+    color: var(--text);
+    background: var(--background);
+    -webkit-font-smoothing: antialiased;
+}
+
+body p {
+    color: var(--color);
+    text-decoration: none;
+}
+
+body a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: color 0.3s, background-color 0.5s;
+}
+
+body a.mute-link {
+    color: var(--color);
+}
+
+body a:hover, body a.mute-link:hover {
+    color: var(--primary);
+}
+
+body .button {
+    color: var(--primary-text);
+    text-decoration: none;
+    background-color: var(--primary);
+    padding: 1rem 2rem;
+    border-radius: 2rem;
+    transition: box-shadow 0.5s, background-color 0.5s, color 0.5s;
+}
+
+body .button:hover {
+    box-shadow: var(--shadow);
+    background-color: var(--secondary);
+    color: var(--secondary-text);
+}
+
+body .text-hover {
+    transition: color 0.3s;
+    color: var(--text);
+}
+
+body .text-hover:hover {
+    color: var(--primary);
+}
+
+body .text-center {
+    text-align: center;
+}

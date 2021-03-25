@@ -5,34 +5,59 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize-css@2.3.1/normalize.css">
-        <link rel="stylesheet" href="public/style.css">
-        <link rel="stylesheet" href="public/index.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="public/favicon/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="public/favicon/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="public/favicon/favicon-16x16.png">
+		<link rel="manifest" href="public/favicon/site.webmanifest">
+        <link rel="stylesheet" href="public/style/_root.css">
+        <link rel="stylesheet" href="public/style/pages/index.css">
         <title>Evan Sellers Portfolio</title>
     </head>
     <body>
         <div class="navigation">
-            <div class="item">
-                <a href="index.html">
-                    Home
-                </a>
-            </div>
-            <div class="item">
-                <a href="resume.html">
-                    Resume
-                </a>
-            </div>
-            <div class="item">
-                <a href="projects.html">
-                    Projects
-                </a>
+            <div class="container flex flex-justify-center flex-wrap">
+                <div class="item" data-aos="fade-down" data-aos-delay="1000">
+                    <a href="index.html" class="mute-link">
+                        Home
+                    </a>
+                </div>
+                <div class="item" data-aos="fade-down" data-aos-delay="1000">
+                    <a href="resume.html" class="mute-link">
+                        Resume
+                    </a>
+                </div>
+                <div class="item" data-aos="fade-down" data-aos-delay="1000">
+                    <a href="projects.html" class="mute-link">
+                        Projects
+                    </a>
+                </div>
+                <div class="spacer"></div>
+                <div class="item" data-aos="fade-down" data-aos-delay="1000">
+                    <a href="https://mobile.twitter.com/_Evan_Sellers_" target="_blank">
+                        <i class="fa fa-twitter text-hover"></i>
+                    </a>
+                </div>
+                <div class="item" data-aos="fade-down" data-aos-delay="1000">
+                    <a href="https://www.instagram.com/sellers.evan/" target="_blank">
+                        <i class="fa fa-instagram text-hover"></i>
+                    </a>
+                </div>
+                <div class="item" data-aos="fade-down" data-aos-delay="1000">
+                    <a href="https://github.com/SellersEvan" target="_blank">
+                        <i class="fa fa-github text-hover"></i>
+                    </a>
+                </div>
             </div>
         </div>
-        <div class="content" id="hero">
-            <img src="public/evan_sellers.jpg">
+        <div class="container cw-800 text-center">
+            <img id="profile-image" data-aos="fade-down" data-aos-delay="0" srcset="
+                    public/images/evan_sellers@3x.jpeg 3x,
+                    public/images/evan_sellers@2x.jpeg 2x,
+                    public/images/evan_sellers.jpeg    1x"
+                src="public/images/evan_sellers.jpeg">
             <br>
-            <h1>Hi, I am <b>Evan Sellers</b>!</h1>
-            <p>
+            <h1 data-aos="fade-down" data-aos-delay="200">Hi, I am <b class="text-hover">Evan Sellers</b>!</h1>
+            <p data-aos="fade-down" data-aos-delay="400">
                 Outgoing computer programmer with 4+ years of experience.
                 Seeking to solve everyday issues with technology and expand my
                 knowledge of computing. Demonstrated ability to bridge the
@@ -40,8 +65,10 @@
                 and developers.
             </p>
             <br>
-            <a class="button" href="mailto:evan@sellersew.com">Send Email</a>
+            <a data-aos="fade-down" data-aos-delay="800" class="button" href="mailto:evan@sellersew.com">Send Email</a>
         </div>
+        <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        <script src="public/script/_root.js"></script>
     </body>
 </html>
 

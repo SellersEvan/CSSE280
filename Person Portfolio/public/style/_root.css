@@ -1,0 +1,32 @@
+/*
+ *   Edited by Evan Sellers <sellersew@gmail.com> on
+ *   behalf of Rose-Hulman Institute of Technology
+ *
+ *   author: Evan Sellers <sellersew@gmail.com>
+ *   date: Wed Mar 24 2021
+ *   original: N/A
+ *   file: root.css
+ *   project: Personal Portfolio
+ *   purpose: Root CSS File
+ *
+ */
+
+@import url( "https://cdn.jsdelivr.net/npm/normalize-css@2.3.1/normalize.css" );
+@import url( "https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;700&display=swap" );
+@import url( "https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" );
+@import url( "https://unpkg.com/aos@next/dist/aos.css" );
+@import url( "./style.css" );
+@import url( "./container.css" );
+@import url( "./navigation.css" );
+
+
+:root {
+    --background: white;
+    --text: black;
+    --primary: coral;
+    --primary-text: white;
+    --secondary: black;
+    --secondary-text: white;
+    --shadow: 1px 1px 100px 5px rgb( 0 0 0 / 5% );
+    --opacity-background: rgba(255,255,255,0.8);
+}
