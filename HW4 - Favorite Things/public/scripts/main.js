@@ -1,32 +1,15 @@
-/**
- * @fileoverview
- * Provides interactions for all pages in the UI.
- *
- * @author 
- */
 
-/** namespace. */
-var rh = rh || {};
 
-/** globals */
-rh.variableName = "";
 
-/** function and class syntax examples */
-rh.functionName = function () {
-	/** function body */
-};
-
-rh.ClassName = class {
-	/** constructor */
-	constructor() {
-
-	}
-	methodName() {
-
-	}
-};
-
-/* Main */
-$(document).ready(() => {
-    console.log("Ready");
+const display = $( "#favorite-number-display" )
+$( ".favorite-number-action" ).each( ( index, element ) => {
+	$( element ).on( "click", () => {
+		let _display = display.data( "count" );
+		let _amount  = $( element ).data( "count" );
+		let isMulti  = $( element ).attr( "multiplication" ) !== undefined;
+		let amount   = ( isMulti ) ?
+					   ( _display * _amount ) : ( _display + _amount );
+		display.data( "count", amount )
+		display.text( `${ amount }` )
+	});
 });
