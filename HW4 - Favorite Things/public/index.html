@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="styles/bootstrap.min.css">
+	<link rel="stylesheet" href="styles/main.css">
+	<title>Favorite Things</title>
+</head>
+
+<body>
+	<nav class="navbar navbar-light fixed-top">
+		Favorite Things
+	</nav>
+	<div id="main-page" class="container page-container">
+	<hr>
+	<section class="text-left">
+		<h2>Favorite Number:</h2>
+		<div class="text-center w-100 mb-3">
+			<h2>0</h2>
+		</div>
+		<div class="row">
+			<div class="col-md-3"></div>
+			<div class="col-4 col-md-2">
+				<button type="button" class="btn btn-rose w-100">-1</button>
+			</div>
+			<div class="col-4 col-md-2">
+				<button type="button" class="btn btn-rose w-100">Reset</button>
+			</div>
+			<div class="col-4 col-md-2">
+				<button type="button" class="btn btn-rose w-100">+1</button>
+			</div>
+			<div class="col-md-3"></div>
+		</div>
+	</section>
+	<hr>
+	<section class="text-left">
+		<h2>Favorite Color:</h2>
+		<div class="d-flex justify-content-center mt-3 mb-4">
+			<div class="d-flex justify-content-center align-items-center" style="background-color: black;" id="favoriteColorContainer">
+				#80000
+			</div>
+		</div>
+		<div class="row no-gutters" id="favoriteColorButtonRow">
+			<div class="col col-md-2"></div>
+			<div class="col col-3 col-md-2">
+				<button type="button" class="btn btn-rose w-100 favoriteColorButton" data-background="blue" data-color="white">Blue</button>
+			</div>
+			<div class="col col-3 col-md-2">
+				<button type="button" class="btn btn-rose w-100 favoriteColorButton" data-background="green" data-color="white">Green</button>
+			</div>
+			<div class="col col-3 col-md-2">
+				<button type="button" class="btn btn-rose w-100 favoriteColorButton" data-background="green" data-color="white">Red</button>
+			</div>
+			<div class="col col-3 col-md-2">
+				<button type="button" class="btn btn-rose w-100 favoriteColorButton" data-background="purple" data-color="white">Purple</button>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+	</section>
+	</div>
+	<script src="scripts/jquery.min.js"></script>
+	<script src="scripts/popper.min.js"></script>
+	<script src="scripts/bootstrap.min.js"></script>
+	<script src="scripts/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+body {
+    background: #DDDDDD;
+}
+
+.navbar {
+    background-color: #800000;
+    color: white;
+}
+
+.page-container {
+    margin-top: 50px;
+}
+
+
+.btn.btn-rose {
+    background-color: #800000;
+    color: white;
+}
+
+#favoriteColorContainer {
+    width: 200px;
+    height: 100px;
+    background-color: #800000;
+    color: white;
+}
+
+#favoriteColorButtonRow .col {
+    padding: 2px;
+}
