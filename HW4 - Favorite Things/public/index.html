@@ -14,51 +14,52 @@
 		Favorite Things
 	</nav>
 	<div id="main-page" class="container page-container">
-	<hr>
-	<section class="text-left">
-		<h2>Favorite Number:</h2>
-		<div class="text-center w-100 mb-3">
-			<h2 id="favorite-number-display" data-count="0">0</h2>
-		</div>
-		<div class="row">
-			<div class="col-md-3"></div>
-			<div class="col-4 col-md-2">
-				<button type="button" class="btn btn-rose w-100 favorite-number-action" data-count="-1">-1</button>
+		<hr>
+		<section class="text-left">
+			<h2>Favorite Number:</h2>
+			<div class="text-center w-100 mb-3">
+				<h2 id="favorite-number-display" data-count="0">0</h2>
 			</div>
-			<div class="col-4 col-md-2">
-				<button type="button" class="btn btn-rose w-100 favorite-number-action" data-count="0" multiplication>Reset</button>
+			<div class="row">
+				<div class="col-md-3"></div>
+				<div class="col-4 col-md-2">
+					<button type="button" class="btn btn-rose w-100 favorite-number-action" data-count="-1">-1</button>
+				</div>
+				<div class="col-4 col-md-2">
+					<button type="button" class="btn btn-rose w-100 favorite-number-action" data-count="0" multiplication>Reset</button>
+				</div>
+				<div class="col-4 col-md-2">
+					<button type="button" class="btn btn-rose w-100 favorite-number-action" data-count="1">+1</button>
+				</div>
+				<div class="col-md-3"></div>
 			</div>
-			<div class="col-4 col-md-2">
-				<button type="button" class="btn btn-rose w-100 favorite-number-action" data-count="1">+1</button>
+		</section>
+		<hr>
+		<section class="text-left">
+			<h2>Favorite Color:</h2>
+			<div class="d-flex justify-content-center mt-3 mb-4">
+				<div class="d-flex justify-content-center align-items-center" id="favorite-color-display">
+					#80000
+				</div>
 			</div>
-			<div class="col-md-3"></div>
-		</div>
-	</section>
-	<hr>
-	<section class="text-left">
-		<h2>Favorite Color:</h2>
-		<div class="d-flex justify-content-center mt-3 mb-4">
-			<div class="d-flex justify-content-center align-items-center" style="background-color: black;" id="favoriteColorContainer">
-				#80000
+			<div class="row no-gutters" id="favoriteColorButtonRow">
+				<div class="col col-md-2"></div>
+				<div class="col col-3 col-md-2">
+					<button type="button" class="btn btn-rose w-100 favorite-color-action" data-background="blue" data-color="white" data-title="blue">Blue</button>
+				</div>
+				<div class="col col-3 col-md-2">
+					<button type="button" class="btn btn-rose w-100 favorite-color-action" data-background="green" data-color="white" data-title="green">Green</button>
+				</div>
+				<div class="col col-3 col-md-2">
+					<button type="button" class="btn btn-rose w-100 favorite-color-action" data-background="red" data-color="white" data-title="red">Red</button>
+				</div>
+				<div class="col col-3 col-md-2">
+					<button type="button" class="btn btn-rose w-100 favorite-color-action" data-background="purple" data-color="white" data-title="purple">Purple</button>
+				</div>
+				<div class="col-md-2"></div>
 			</div>
-		</div>
-		<div class="row no-gutters" id="favoriteColorButtonRow">
-			<div class="col col-md-2"></div>
-			<div class="col col-3 col-md-2">
-				<button type="button" class="btn btn-rose w-100 favoriteColorButton" data-background="blue" data-color="white">Blue</button>
-			</div>
-			<div class="col col-3 col-md-2">
-				<button type="button" class="btn btn-rose w-100 favoriteColorButton" data-background="green" data-color="white">Green</button>
-			</div>
-			<div class="col col-3 col-md-2">
-				<button type="button" class="btn btn-rose w-100 favoriteColorButton" data-background="green" data-color="white">Red</button>
-			</div>
-			<div class="col col-3 col-md-2">
-				<button type="button" class="btn btn-rose w-100 favoriteColorButton" data-background="purple" data-color="white">Purple</button>
-			</div>
-			<div class="col-md-2"></div>
-		</div>
-	</section>
+		</section>
+		<hr>
 	</div>
 	<script src="scripts/jquery.min.js"></script>
 	<script src="scripts/popper.min.js"></script>
