@@ -24,7 +24,6 @@ body {
     margin-top: 50px;
 }
 
-
 .btn.btn-rose {
     background-color: #800000;
     color: white;
@@ -37,6 +36,11 @@ body {
     color: white;
 }
 
+/* Instead on the bottom a padding of 2px was used on the .col elements */
 #favoriteColorButtonRow .col {
     padding: 2px;
+}
+
+.favorite-color-action:hover {
+    color: black;
 }

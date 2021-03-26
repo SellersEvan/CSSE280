@@ -35,6 +35,5 @@ $( ".favorite-color-action" ).each( ( index, element ) => {
 		displayColor.text( _title );
 	});
 	$( element ).css( "background-color", $( element ).data( "background" ) );
-	$( element ).css( "color", $( element ).data( "color" ) );
 });
 
