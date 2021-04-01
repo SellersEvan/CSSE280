@@ -15,6 +15,9 @@ class TicTacToe {
 
 	static BOARD_SIZE = 9;
 
+    static ROW_CHECKS = [ [ 0, 1, 2 ], [ 3, 4, 5 ], [ 6, 7, 8 ], [ 0, 3, 6 ],
+                        [ 1, 4, 7 ], [ 2, 5, 8 ], [ 0, 4, 8 ], [ 2, 4, 6 ] ];
+
     constructor() {
 		this.state = TicTacToe.STATE.X_TURN;
 		this.board = [];
@@ -48,28 +51,17 @@ class TicTacToe {
 
     _checkGameOver() {
 		if ( !this.board.includes( TicTacToe.MARK.NONE ) ) 
-			this.state = TicTacToe.State.TIE;
-
-        
-
-        // update
-		const linesOf3 = [];
-		linesOf3.push(this.board[0] + this.board[1] + this.board[2]);
-		linesOf3.push(this.board[3] + this.board[4] + this.board[5]);
-		linesOf3.push(this.board[6] + this.board[7] + this.board[8]);
-		linesOf3.push(this.board[0] + this.board[3] + this.board[6]);
-		linesOf3.push(this.board[1] + this.board[4] + this.board[7]);
-		linesOf3.push(this.board[2] + this.board[5] + this.board[8]);
-		linesOf3.push(this.board[0] + this.board[4] + this.board[8]);
-		linesOf3.push(this.board[2] + this.board[4] + this.board[6]);
-		for (const lineOf3 of linesOf3) {
-			if (lineOf3 == "XXX") {
-				this.state = TicTacToe.STATE.X_WIN;
-			} else if (lineOf3 == "OOO") {
-				this.state = TicTacToe.STATE.O_WIN;
-			}
-		}
+			this.state = TicTacToe.STATE.TIE;
+        TicTacToe.ROW_CHECKS.forEach( bx => {
+            let buf = this.board[bx[0]]+this.board[bx[1]]+this.board[bx[2]];
+            if ( buf == "XXX" ) this.state = TicTacToe.STATE.X_WIN;
+			else if ( buf == "OOO" ) this.state = TicTacToe.STATE.O_WIN;
+        });
 	}
+
+    _checkRow( index ) {
+        return ;
+    }
 
 
     getMark( btnIndex ) {
