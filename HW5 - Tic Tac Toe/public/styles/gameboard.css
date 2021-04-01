@@ -1,0 +1,68 @@
+.ttt-gameboard {
+    margin-top: 40px;
+    display: grid;
+    width: 300px;
+    height: 300px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 33% 33% 33%;
+}
+
+@media (min-width: 576px) {
+    .ttt-gameboard {
+        width: 450px;
+        height: 450px;
+    }
+}
+
+@media (min-width: 768px) {
+    .ttt-gameboard {
+        width: 600px;
+        height: 600px;
+    }
+}
+
+
+.ttt-gameboard .ttt-action-select {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #b9b9b9;
+    font-size: 60px;
+    color: white;
+    font-weight: 500;
+}
+
+
+@media (min-width: 768px) {
+    .ttt-gameboard .ttt-action-select {
+        font-size: 120px;
+    }
+}
+
+
+@media (min-width: 576px) {
+    .ttt-gameboard .ttt-action-select {
+        font-size: 90px;
+    }
+}
+
+.ttt-gameboard button.btn {
+    margin-top: 15px;
+    background: #8d8d8d;
+    color: #FFFFFF;
+    margin-left: auto;
+    grid-column: 1 / -1;
+}
+
+@media (min-width: 768px) {
+    .ttt-gameboard button.btn {
+        font-size: 1.5em;
+    }
+}
+
+
+@media (min-width: 576px) {
+    .ttt-gameboard button.btn {
+        font-size: 1.25em;
+    }
+}

@@ -1,0 +1,47 @@
+@import url( "./gameboard.css" );
+
+body {
+    background: white;
+}
+
+.navbar {
+    background-color: white;
+    color: black !important;
+    box-shadow: none;
+    border-bottom: 1px rgba( 0, 0, 0, 0.05 ) solid;
+}
+
+.page-container {
+    margin-top: 75px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.borderbottom {
+    border-bottom: 2px solid #8d8d8d;
+}
+
+.borderright {
+    border-right: 2px solid #8d8d8d;
+}
+
+.borderleft {
+    border-left: 2px solid #8d8d8d;
+}
+
+.bordertop {
+    border-top: 2px solid #8d8d8d;
+}
