@@ -1,10 +1,24 @@
+/*
+ *   Edited by Evan Sellers <sellersew@gmail.com> on
+ *   behalf of Rose-Hulman Institute of Technology
+ *
+ *   author: Evan Sellers <sellersew@gmail.com>
+ *   date: Thu Apr 01 2021
+ *   original: N/A
+ *   file: TicTacToe.js
+ *   project: N/A
+ *   purpose: N/A
+ *
+ */
+
+
 class TicTacToe {
+
     static MARK = { 
         X: "X",
 		O: "O",
 		NONE: " "
 	}
-
 	static STATE = {
 		X_TURN: "X's Turn",
 		O_TURN: "O's Turn",
@@ -12,12 +26,11 @@ class TicTacToe {
 		O_WIN:  "O Wins",
 		TIE:    "Tie Game"
 	}
-
 	static BOARD_SIZE = 9;
-
     static ROW_CHECKS = [ [ 0, 1, 2 ], [ 3, 4, 5 ], [ 6, 7, 8 ], [ 0, 3, 6 ],
                         [ 1, 4, 7 ], [ 2, 5, 8 ], [ 0, 4, 8 ], [ 2, 4, 6 ] ];
 
+                        
     constructor() {
 		this.state = TicTacToe.STATE.X_TURN;
 		this.board = [];
@@ -27,11 +40,13 @@ class TicTacToe {
 
 	}
 
+
     isGameOver() {
         return ( this.state == TicTacToe.STATE.X_WIN ||
 			     this.state == TicTacToe.STATE.O_WIN ||
 			     this.state == TicTacToe.STATE.TIE );
     }
+
 
     btnPressed( btnIndex ) {
 		if ( this.isGameOver() ) return;
@@ -59,14 +74,11 @@ class TicTacToe {
         });
 	}
 
-    _checkRow( index ) {
-        return ;
-    }
-
 
     getMark( btnIndex ) {
 		return this.board[ btnIndex ];
 	}
+
 
 	getState() {
 		return this.state;

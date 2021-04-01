@@ -1,3 +1,16 @@
+/*
+ *   Edited by Evan Sellers <sellersew@gmail.com> on
+ *   behalf of Rose-Hulman Institute of Technology
+ *
+ *   author: Evan Sellers <sellersew@gmail.com>
+ *   date: Thu Apr 01 2021
+ *   original: N/A
+ *   file: main.css
+ *   project: N/A
+ *   purpose: N/A
+ *
+ */
+
 @import url( "./gameboard.css" );
 
 body {
@@ -17,18 +30,6 @@ body {
     flex-direction: column;
     align-items: center;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 .borderbottom {
     border-bottom: 2px solid #8d8d8d;

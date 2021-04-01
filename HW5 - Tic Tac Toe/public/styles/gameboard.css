@@ -1,3 +1,16 @@
+/*
+ *   Edited by Evan Sellers <sellersew@gmail.com> on
+ *   behalf of Rose-Hulman Institute of Technology
+ *
+ *   author: Evan Sellers <sellersew@gmail.com>
+ *   date: Thu Apr 01 2021
+ *   original: N/A
+ *   file: gameboard.css
+ *   project: N/A
+ *   purpose: N/A
+ *
+ */
+
 .ttt-gameboard {
     margin-top: 40px;
     display: grid;
@@ -21,7 +34,6 @@
     }
 }
 
-
 .ttt-gameboard .ttt-action-select {
     display: flex;
     justify-content: center;
@@ -31,7 +43,6 @@
     color: white;
     font-weight: 500;
 }
-
 
 @media (min-width: 768px) {
     .ttt-gameboard .ttt-action-select {
@@ -59,7 +70,6 @@
         font-size: 1.5em;
     }
 }
-
 
 @media (min-width: 576px) {
     .ttt-gameboard button.btn {
