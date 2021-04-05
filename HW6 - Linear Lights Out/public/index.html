@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+	<link rel="stylesheet" href="styles/bootstrap-material-design.min.css">
+	<link rel="stylesheet" href="styles/main.css">
+	<title>Linear Lights Out</title>
+</head>
+
+<body>
+	<nav class="navbar navbar-light fixed-top">
+		<div class="container">
+			<a class="navbar-brand" href="#">Linear Lights Out</a>
+		</div>
+
+	</nav>
+	<div id="mainPage" class="container page-container">
+
+		<h1 class="text-center" id="llo-data-result">Make the buttons match</h1>
+		<div class="llo-gameboard">
+			<div class="llo-gameboard-lights">
+				<div data-llo-index="0" class="llo-switch light-off">0</div>
+				<div data-llo-index="1" class="llo-switch light-off">0</div>
+				<div data-llo-index="2" class="llo-switch light-off">0</div>
+				<div data-llo-index="3" class="llo-switch light-off">0</div>
+				<div data-llo-index="4" class="llo-switch light-off">0</div>
+				<div data-llo-index="5" class="llo-switch light-off">0</div>
+			</div>
+			<div class="llo-gameboard-controls">
+				<button id="llo-action-reset" class="btn">Reset Game</button>
+			</div>
+		</div>
+
+
+
+	</div>
+	<script src="scripts/jquery.min.js"></script>
+	<script src="scripts/popper.js"></script>
+	<script src="scripts/bootstrap-material-design.js"></script>
+	<script>$("body").bootstrapMaterialDesign();</script>
+	<script src="scripts/LinearLightsOut.js"></script>
+	<script src="scripts/PageController.js"></script>
+	<script src="scripts/main.js"></script>
+</body>
+
+</html>
