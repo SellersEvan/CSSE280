@@ -48,6 +48,7 @@ class LinearLightsOut {
 
     btnPressed( btnIndex ) {
 		if ( this.isGameOver() ) return;
+		this.state = LinearLightsOut.STATE.PLAYING;
 		this.moves++;
 		this.panel[ btnIndex ] = !this.panel[ btnIndex ];
 		if ( btnIndex - 1 >= 0 )

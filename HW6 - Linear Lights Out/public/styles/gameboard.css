@@ -60,14 +60,26 @@
     background: #d8a525;
 }
 
+#llo-data-result {
+    font-size: 1.5rem;
+}
+
 @media (min-width: 576px) {
     .llo-gameboard .llo-switch {
         font-size: 1.8rem;
+    }
+
+    #llo-data-result {
+        font-size: 1.75rem;
     }
 }
 
 @media (min-width: 992px) {
     .llo-gameboard .llo-switch {
         font-size: 2.2rem;
+    }
+
+    #llo-data-result {
+        font-size: 2rem;
     }
 }
