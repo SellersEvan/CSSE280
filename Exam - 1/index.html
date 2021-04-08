@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+	<link rel="stylesheet" href="styles/bootstrap-material-design.min.css">
+	<link rel="stylesheet" href="styles/main.css">
+	<title>Water Park</title>
+</head>
+
+<body>
+	<nav class="navbar navbar-dark fixed-top">
+		<a class="navbar-brand" href="#">Water Park</a>
+	</nav>
+	<div id="mainPage" class="container page-container">
+		<h1>Budget</h1>
+		<div class="row justify-content-end form-inline pt-3">
+			<div class="col-6">
+				<div class="form-group">
+					<label for="budget" class="w-100 justify-content-start">Starting Tickets</label><br>
+					<input type="number" class="form-control" id="startingTicketsInput" placeholder="Starting Tickets"
+						value=200>
+				</div>
+			</div>
+			<div class="col-6 text-right">
+				<button id="updateButton" type="button" class="btn btn-primary">Update starting<br> ticket
+					balance</button>
+			</div>
+		</div>
+		<hr>
+		<h1>Activities</h1>
+		<div class="row justify-content-center justify-content-lg-start pt-3">
+			<div class="col-6 col-md-4 col-lg-3">
+				<button id="option1Button" type="button" data-cost="40" data-activity="1"
+					class="btn btn-outline-primary btn-lg btn-block">Big
+					Drop (40)</button>
+			</div>
+			<div id="option1Counter" class="display-3 col-1">
+				0
+			</div>
+			<div class="col-6 col-md-4 col-lg-3">
+				<button id="option2Button" type="button" data-cost="15" data-activity="2"
+					class="btn btn-outline-primary btn-lg btn-block">Tubes
+					(15)</button>
+			</div>
+			<div id="option2Counter" class="display-3 col-1">
+				0
+			</div>
+			<div class="col-6 col-md-4 col-lg-3">
+				<button id="option3Button" type="button" data-cost="100" data-activity="3"
+					class="btn btn-outline-primary btn-lg btn-block">Pizza
+					(100)</button>
+			</div>
+			<div id="option3Counter" class="display-3 col-1">
+				0
+			</div>
+			<div class="col-6 col-md-4 col-lg-3">
+				<button id="option4Button" type="button" data-cost="20" data-activity="4"
+					class="btn btn-outline-primary btn-lg btn-block">Pretzel
+					(20)</button>
+			</div>
+			<div id="option4Counter" class="display-3 col-1">
+				0
+			</div>
+
+			<div class="col-12 text-right">
+				<button id="resetButton" type="button" class="btn btn-primary">Reset<br>Counters</button>
+			</div>
+		</div>
+		<hr>
+		<h1>Tickets Remaining</h1>
+		<h2 id="ticketsRemaining" class="display-3 text-center">200</h2>
+		<hr>
+	</div>
+	<script src="scripts/jquery.min.js"></script>
+	<script src="scripts/popper.js"></script>
+	<script src="scripts/bootstrap-material-design.js"></script>
+	<script>
+    $("body").bootstrapMaterialDesign();
+	</script>
+	<script src="scripts/main.js"></script>
+</body>
+
+</html>

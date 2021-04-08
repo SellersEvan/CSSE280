@@ -1,0 +1,21 @@
+body {
+    background: #DDDDDD;
+}
+
+.navbar {
+    background-color: #800000;
+    color: white;
+}
+
+.page-container {
+    margin-top: 75px;
+}
+
+
+#ticketsRemaining {
+    color: #800000;
+    background-color: white;
+    border: 2px black solid;
+    font-weight: bold;
+    padding: 1.5rem 0;
+}
