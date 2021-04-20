@@ -10,3 +10,22 @@ body {
 .page-container {
     margin-top: 75px;
 }
+
+
+#fab {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 999;
+    background: #800000;
+    color: white;
+    border-radius: 10rem;
+}
+
+.card {
+    margin: 10px 0;
+}
+
+.dropdown-menu-right {
+    left: -128px;
+}
