@@ -24,8 +24,9 @@ body {
 
 .card {
     margin: 10px 0;
+    cursor: pointer;
 }
 
 .dropdown-menu-right {
-    left: -128px;
+    left: -130px;
 }

@@ -1,16 +1,30 @@
+/*
+ *   Edited by Evan Sellers <sellersew@gmail.com> on
+ *   behalf of Rose-Hulman Institute of Technology
+ *
+ *   author: Evan Sellers <sellersew@gmail.com>
+ *   date: Mon Apr 19 2021
+ *   original: N/A
+ *   file: main.js
+ *   project: N/A
+ *   purpose: N/A
+ *
+ */
+
 
 const COLLECTION       = "MovieQuotes";
 const KEY_QUOTE        = "quote";
 const KEY_MOVIE        = "movie";
 const KEY_LAST_UPDATED = "lastTouched";
 
-
+// got func from prof
 function htmlToElement(html) {
 	var template = document.createElement('template');
-	html = html.trim(); // Never return a text node of whitespace as the result
+	html = html.trim();
 	template.innerHTML = html;
 	return template.content.firstChild;
 }
+
 
 class MovieQuote {
 	constructor( id, quote, movie ) {
@@ -19,6 +33,7 @@ class MovieQuote {
 		this.movie = movie;
 	}
 }
+
 
 class MovieQuotesManager {
 
@@ -79,10 +94,12 @@ class MovieQuotesManager {
 
 class ListPageController {
 
+	// custuctor
 	constructor() {
 		this.init();
 	}
 
+	// init
 	init() {
 		MOVIE_QUOTE_MANAGER.openDatabase( this.update );
 
@@ -104,6 +121,7 @@ class ListPageController {
 		});
 	}
 
+	// update
 	update() {
 		const list = document.querySelector( "#quoteListContainer" );
 		list.innerHTML = "";
@@ -118,10 +136,10 @@ class ListPageController {
 		}
 	}
 
-
+	// create card
 	static _createCard( movieQuote ) {
 		return htmlToElement(
-			`<div id="${ movieQuote.id}" class="card">
+			`<div id="${ movieQuote.id }" class="card">
 				<div class="card-body">
 					<h5 class="card-title">${ movieQuote.quote }</h5>
 					<h6 class="card-subtitle mb-2 text-muted">${ movieQuote.movie }</h6>
@@ -134,6 +152,7 @@ class ListPageController {
 
 class SingleMovieQuotesManager {
 
+	// custructor
 	constructor( movieQuoteID ) {
 		this.id     = movieQuoteID;
 		this.doc    = {};
@@ -141,6 +160,7 @@ class SingleMovieQuotesManager {
 		this.fsdb   = firebase.firestore().collection( COLLECTION ).doc( movieQuoteID );
 	}
 
+	// open database
 	openDatabase( changeListener ) {
 		this.socket = this.fsdb.onSnapshot( _doc => {
 			if ( _doc.exists ) {
@@ -187,10 +207,12 @@ class SingleMovieQuotesManager {
 
 class DetailPageController {
 
+	// Constucotr
 	constructor() {
 		this.init();
 	}
 
+	// init
 	init() {
 		SINGLE_MOVIE_QUOTES_MANAGER.openDatabase( this.update );
 
@@ -216,6 +238,7 @@ class DetailPageController {
 		});
 	}
 
+	// update
 	update() {
 		let quote = SINGLE_MOVIE_QUOTES_MANAGER.quote;
 		let movie = SINGLE_MOVIE_QUOTES_MANAGER.movie;
@@ -229,6 +252,7 @@ class DetailPageController {
 		list.appendChild( newCard );
 	}
 
+	// create card
 	static _createCard( movieQuote ) {
 		return htmlToElement(
 			`<div id="${ movieQuote.id }" class="card">
@@ -242,25 +266,14 @@ class DetailPageController {
 }
 
 
-
 if ( window.location.href.includes( "quote.html" ) ) {
 	let url                         = window.location.search;
 	let urlParam                    = new URLSearchParams( url );
  	let docID                       = urlParam.get( "id" );
-
-	if ( !docID ) {
-		window.location.href = "/";
-	}
-
+	if ( !docID ) window.location.href = "/";
 	var SINGLE_MOVIE_QUOTES_MANAGER = new SingleMovieQuotesManager( docID );
 	var DETAIL_PAGE_CONTROLLER      = new DetailPageController();
 } else {
 	var MOVIE_QUOTE_MANAGER         = new MovieQuotesManager();
 	var LIST_PAGE_CONTROLLER        = new ListPageController();
 }
-
-
-
-
-// var MOVIE_QUOTE_MANAGER         = new MovieQuotesManager();
-// var LIST_PAGE_CONTROLLER        = new ListPageController();
