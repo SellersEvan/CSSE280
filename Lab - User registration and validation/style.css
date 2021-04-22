@@ -1,0 +1,15 @@
+input {
+    border: 1px solid #aaa;
+}
+
+#formErrors {
+    display: none;
+}
+
+#formErrors li {
+    color: red;
+}
+
+input.error {
+    border: 2px solid rgb(255, 0, 0);
+}

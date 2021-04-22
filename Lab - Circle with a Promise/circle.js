@@ -3,7 +3,6 @@ window.addEventListener("DOMContentLoaded", function () {
 });
 
 function showCircleClick() {
-   // TODO: Add modifications here
    showCircle(160, 180, 120).then( elm => {
       elm.innerHTML= "Ta da!";
    }).catch( err => alert( err ) );
