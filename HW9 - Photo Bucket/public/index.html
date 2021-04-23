@@ -7,50 +7,57 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
 	<link rel="stylesheet" href="styles/bootstrap-material-design.min.css">
 	<link rel="stylesheet" href="styles/main.css">
-	<title>Movie Quotes</title>
+	<title>Photo Bucket</title>
 </head>
 
 <body>
 
 	<!-- Nav Bar -->
 	<nav class="navbar navbar-light fixed-top">
-		<a class="navbar-brand" href="/">Movie Quotes</a>
+		<div class="container">
+			<a class="navbar-brand" href="/">Photo Bucket</a>
+		</div>
 	</nav>
 
-	<!-- Add Quote Popup -->
-	<div class="modal fade show" id="addQuoteDialog">
+	<!-- Add Photo Popup -->
+	<div class="modal fade show" id="addPhotoDialog">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Add Quote</h5>
+					<h5 class="modal-title">Add a Photo</h5>
 				</div>
 				<div class="modal-body">
 					<div class="form-group bmd-form-group">
-						<label for="inputQuote" class="bmd-label-floating">Quote</label>
-						<input type="text" class="form-control" id="inputQuote">
+						<label for="inputImage" class="bmd-label-floating">Image</label>
+						<input type="text" class="form-control" id="inputImage">
+						<span class="bmd-help">URL of Existing Image</span>
 					</div>
 					<div class="form-group bmd-form-group">
-						<label for="inputMovie" class="bmd-label-floating">Movie</label>
-						<input type="text" class="form-control" id="inputMovie">
-						<span class="bmd-help">What movie is this quote from?</span>
+						<label for="inputCaption" class="bmd-label-floating">Caption</label>
+						<input type="text" class="form-control" id="inputCaption">
+						<span class="bmd-help">Image Related Text</span>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-					<button type="button" id="submitAddQuote" class="btn btn-primary" data-dismiss="modal">Save</button>
+					<button type="button" id="sumbitAddPhoto" class="btn btn-primary" data-dismiss="modal">Save</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- Floating Action Button -->
-	<button id="fab" type="button" class="btn bmd-btn-fab" data-toggle="modal" data-target="#addQuoteDialog">
+	<button id="fab" type="button" class="btn bmd-btn-fab" data-toggle="modal" data-target="#addPhotoDialog">
 		<i class="material-icons">add</i>
 	</button>
 
 	<!-- Main Body -->
 	<div id="mainPage" class="container page-container">
-		<div id="quoteListContainer">
+		<div id="listPage">
+			<div class="w-100 text-center mt-5">
+				<p>loading...</p>
+			</div>
+			
 			<!-- Insert Cards -->
 		</div>
 	</div>

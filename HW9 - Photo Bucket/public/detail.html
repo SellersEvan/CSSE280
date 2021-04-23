@@ -7,52 +7,55 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
 	<link rel="stylesheet" href="styles/bootstrap-material-design.min.css">
 	<link rel="stylesheet" href="styles/main.css">
-	<title>Movie Quotes</title>
+	<title>Photo Bucket</title>
 </head>
 
 <body>
 
 	<!-- Nav Bar -->
 	<nav class="navbar navbar-light fixed-top">
-		<a class="navbar-brand" href="/">Movie Quotes</a>
-		<div class="dropdown pull-xs-right">
-			<button class="btn bmd-btn-icon dropdown-toggle" type="button" id="lr1" data-toggle="dropdown"
-				aria-haspopup="true" aria-expanded="false">
-				<i class="material-icons">more_vert</i>
-				<div class="ripple-container"></div>
-			</button>
-			<div class="dropdown-menu dropdown-menu-right">
-				<button class="dropdown-item" type="button" data-toggle="modal" data-target="#editQuoteDialog">
-					<i class="material-icons">edit</i>Edit
+		<div class="container">
+			<a class="navbar-brand" href="/">Photo Bucket</a>
+			<div class="dropdown pull-xs-right">
+				<button class="btn bmd-btn-icon dropdown-toggle" type="button" id="lr1" data-toggle="dropdown"
+					aria-haspopup="true" aria-expanded="false">
+					<i class="material-icons">more_vert</i>
+					<div class="ripple-container"></div>
 				</button>
-				<button class="dropdown-item" type="button" data-toggle="modal" data-target="#deleteQuoteDialog">
-					<i class="material-icons">delete</i>Delete
-				</button>
+				<div class="dropdown-menu dropdown-menu-right">
+					<button class="dropdown-item" type="button" data-toggle="modal" data-target="#editImageDialog">
+						<i class="material-icons">edit</i>Edit
+					</button>
+					<button class="dropdown-item" type="button" data-toggle="modal" data-target="#deleteImageDialog">
+						<i class="material-icons">delete</i>Delete
+					</button>
+				</div>
 			</div>
 		</div>
 	</nav>
 
 	<!-- Edit -->
-	<div class="modal fade show" id="editQuoteDialog" role="dialog">
+	<div class="modal fade show" id="editImageDialog" role="dialog">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Edit quote</h5>
+					<h5 class="modal-title">Edit Image</h5>
 				</div>
 				<div class="modal-body">
 					<div class="form-group bmd-form-group">
-						<label for="inputQuote" class="bmd-label-static">Quote</label>
-						<input type="text" class="form-control" id="inputQuote" placeholder="">
+						<label for="inputImage" class="bmd-label-floating">Image</label>
+						<input type="text" class="form-control" id="inputImage">
+						<span class="bmd-help">URL of Existing Image</span>
 					</div>
 					<div class="form-group bmd-form-group">
-						<label for="inputMovie" class="bmd-label-static">Movie</label>
-						<input type="text" class="form-control" id="inputMovie" placeholder="">
-						<span class="bmd-help">What movie is this quote from?</span>
+						<label for="inputCaption" class="bmd-label-floating">Caption</label>
+						<input type="text" class="form-control" id="inputCaption">
+						<span class="bmd-help">Image Related Text</span>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancle</button>
-					<button type="button" id="submitEditQuote" class="btn btn-primary"
+					<button type="button" id="submitEditImage" class="btn btn-primary"
 						data-dismiss="modal">Save</button>
 				</div>
 			</div>
@@ -60,18 +63,18 @@
 	</div>
 
 	<!-- Delete -->
-	<div class="modal fade show" id="deleteQuoteDialog" role="dialog">
+	<div class="modal fade show" id="deleteImageDialog" role="dialog">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Delete quote</h5>
+					<h5 class="modal-title">Delete Image</h5>
 				</div>
 				<div class="modal-body">
-					Are you sure you want to delete this movie quote?
+					Are you sure you want to delete this image?
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-					<button type="button" id="submitDeleteQuote" class="btn btn-primary"
+					<button type="button" id="submitDeleteImage" class="btn btn-primary"
 						data-dismiss="modal">Delete</button>
 				</div>
 			</div>
@@ -79,13 +82,16 @@
 	</div>
 
 	<!-- Floating Action Icon -->
-	<button id="fab" type="button" class="btn bmd-btn-fab" data-toggle="modal" data-target="#editQuoteDialog">
+	<button id="fab" type="button" class="btn bmd-btn-fab" data-toggle="modal" data-target="#editImageDialog">
 		<i class="material-icons">edit</i>
 	</button>
 
 	<!-- Main Body -->
 	<div id="mainPage" class="container page-container">
-		<div id="quoteListContainer">
+		<div id="detailPage">
+			<div class="w-100 text-center mt-5">
+				<p>loading...</p>
+			</div>
 			<!-- Insert Cards -->
 		</div>
 	</div>

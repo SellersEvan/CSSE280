@@ -12,9 +12,9 @@
  */
 
 
-const COLLECTION       = "MovieQuotes";
-const KEY_QUOTE        = "quote";
-const KEY_MOVIE        = "movie";
+const COLLECTION       = "Pic";
+const KEY_IMAGE        = "imageUrl";
+const KEY_CAPTION      = "caption";
 const KEY_LAST_UPDATED = "lastTouched";
 
 // got func from prof
@@ -26,16 +26,16 @@ function htmlToElement(html) {
 }
 
 
-class MovieQuote {
-	constructor( id, quote, movie ) {
-		this.id    = id;
-		this.quote = quote;
-		this.movie = movie;
+class ImageItem {
+	constructor( id, imageUrl, caption ) {
+		this.id       = id;
+		this.imageUrl = imageUrl;
+		this.caption  = caption;
 	}
 }
 
 
-class MovieQuotesManager {
+class ImageListManager {
 
 	// Constructor
 	constructor() {
@@ -61,11 +61,11 @@ class MovieQuotesManager {
 		this.socket();
 	}
 
-	// Add Quote
-	add( quote, movie ) {
+	// Add Image
+	add( imageUrl, caption ) {
 		this.fsdb.add({
-				[ KEY_QUOTE ]: quote,
-				[ KEY_MOVIE ]: movie,
+				[ KEY_IMAGE ]: imageUrl,
+				[ KEY_CAPTION ]: caption,
 				[ KEY_LAST_UPDATED ]: firebase.firestore.Timestamp.now()
 			}).then( addedDoc => {
 				console.log( "Doc Added: " + addedDoc.id );
@@ -79,13 +79,13 @@ class MovieQuotesManager {
 		return this.docs.length;
 	}
 
-	// get movie quote by index
-	getMovieQuoteByIndex( index ) {
+	// get image by index
+	getImageByIndex( index ) {
 		let doc = this.docs[ index ];
-		return new MovieQuote(
+		return new ImageItem(
 				doc.id,
-				doc.get( KEY_QUOTE ),
-				doc.get( KEY_MOVIE )
+				doc.get( KEY_IMAGE ),
+				doc.get( KEY_CAPTION )
 			);
 	}
 
@@ -101,63 +101,61 @@ class ListPageController {
 
 	// init
 	init() {
-		MOVIE_QUOTE_MANAGER.openDatabase( this.update );
+		IMAGE_MANAGER.openDatabase( this.update );
 
-		$( "#addQuoteDialog" ).on( "show.bs.modal", () => {
-			document.querySelector( "#addQuoteDialog #inputQuote" ).value = "";
-			document.querySelector( "#addQuoteDialog #inputMovie" ).value = "";
+		$( "#addPhotoDialog" ).on( "show.bs.modal", () => {
+			document.querySelector( "#addPhotoDialog #inputImage" ).value = "";
+			document.querySelector( "#addPhotoDialog #inputCaption" ).value = "";
 		});
 
-		$( "#addQuoteDialog" ).on("shown.bs.modal", () => {
-			document.querySelector( "#inputQuote" ).focus();
+		$( "#addPhotoDialog" ).on( "shown.bs.modal", () => {
+			document.querySelector( "#inputImage" ).focus();
 		});
 
-		document.querySelector( "#submitAddQuote" )
+		document.querySelector( "#sumbitAddPhoto" )
 			.addEventListener( "click", () => {
-				MOVIE_QUOTE_MANAGER.add(
-						document.querySelector( "#inputQuote" ).value,
-						document.querySelector( "#inputMovie" ).value
+				IMAGE_MANAGER.add(
+						document.querySelector( "#inputImage" ).value,
+						document.querySelector( "#inputCaption" ).value
 					);
 		});
 	}
 
 	// update
 	update() {
-		const list = document.querySelector( "#quoteListContainer" );
+		const list = document.querySelector( "#listPage" );
 		list.innerHTML = "";
 
-		for ( let i = 0; i < MOVIE_QUOTE_MANAGER.length; i++ ) {
-			const movieQuote = MOVIE_QUOTE_MANAGER.getMovieQuoteByIndex( i );
-			const newCard    = ListPageController._createCard( movieQuote );
+		for ( let i = 0; i < IMAGE_MANAGER.length; i++ ) {
+			const imageData = IMAGE_MANAGER.getImageByIndex( i );
+			const newCard    = ListPageController._createCard( imageData );
 			newCard.addEventListener( "click", () => {
-				window.location.href = `/quote.html?id=${ movieQuote.id }`;
+				window.location.href = `/detail.html?id=${ imageData.id }`;
 			});
 			list.appendChild( newCard );
 		}
 	}
 
 	// create card
-	static _createCard( movieQuote ) {
+	static _createCard( imageData ) {
 		return htmlToElement(
-			`<div id="${ movieQuote.id }" class="card">
-				<div class="card-body">
-					<h5 class="card-title">${ movieQuote.quote }</h5>
-					<h6 class="card-subtitle mb-2 text-muted">${ movieQuote.movie }</h6>
-				</div>
+			`<div class="pin" id="${ imageData.id }">
+				<img src="${ imageData.imageUrl }" alt="${ imageData.caption }">
+		  		<p class="caption">${ imageData.caption }</p>
 			</div>` );
 	}
 
 }
 
 
-class SingleMovieQuotesManager {
+class SingleImageManager {
 
 	// custructor
-	constructor( movieQuoteID ) {
-		this.id     = movieQuoteID;
+	constructor( ImageID ) {
+		this.id     = ImageID;
 		this.doc    = {};
 		this.socket = null;
-		this.fsdb   = firebase.firestore().collection( COLLECTION ).doc( movieQuoteID );
+		this.fsdb   = firebase.firestore().collection( COLLECTION ).doc( ImageID );
 	}
 
 	// open database
@@ -177,21 +175,21 @@ class SingleMovieQuotesManager {
 		this.socket();
 	}
 
-	// get quote
-	get quote() {
-		return this.doc.get( KEY_QUOTE );
+	// get Image Url
+	get imageUrl() {
+		return this.doc.get( KEY_IMAGE );
 	}
 
-	// get movie
-	get movie() {
-		return this.doc.get( KEY_MOVIE );
+	// get caption
+	get caption() {
+		return this.doc.get( KEY_CAPTION );
 	}
 
-	// update movie
-	update( quote, movie ) {
+	// update image
+	update( imageUrl, caption ) {
 		this.fsdb.update({
-			[ KEY_QUOTE ]: quote,
-			[ KEY_MOVIE ]: movie,
+			[ KEY_IMAGE ]: imageUrl,
+			[ KEY_CAPTION ]: caption,
 			[ KEY_LAST_UPDATED ]: firebase.firestore.Timestamp.now(),
 		}).then(() => {
 			console.log( "doc updated" );
@@ -214,25 +212,25 @@ class DetailPageController {
 
 	// init
 	init() {
-		SINGLE_MOVIE_QUOTES_MANAGER.openDatabase( this.update );
+		SINGLE_IMAGE_MANAGER.openDatabase( this.update );
 
-		$( "#editQuoteDialog" ).on( "show.bs.modal", () => {
+		$( "#editImageDialog" ).on( "show.bs.modal", () => {
 			this.update();
 		});
 
-		$( "#editQuoteDialog" ).on( "shown.bs.modal", () => {
-			document.querySelector( "#inputQuote" ).focus();
+		$( "#editImageDialog" ).on( "shown.bs.modal", () => {
+			document.querySelector( "#inputImage" ).focus();
 		});
 
-		document.querySelector( "#submitEditQuote" ).addEventListener( "click", () => {
-			SINGLE_MOVIE_QUOTES_MANAGER.update(
-					document.querySelector( "#inputQuote ").value,
-					document.querySelector( "#inputMovie" ).value
+		document.querySelector( "#submitEditImage" ).addEventListener( "click", () => {
+			SINGLE_IMAGE_MANAGER.update(
+					document.querySelector( "#inputImage ").value,
+					document.querySelector( "#inputCaption" ).value
 				);
 		});
 
-		document.querySelector( "#submitDeleteQuote" ).addEventListener( "click", () => {
-			SINGLE_MOVIE_QUOTES_MANAGER.delete().then( () => {
+		document.querySelector( "#submitDeleteImage" ).addEventListener( "click", () => {
+			SINGLE_IMAGE_MANAGER.delete().then( () => {
 				window.location.href = "/";
 			});
 		});
@@ -240,40 +238,45 @@ class DetailPageController {
 
 	// update
 	update() {
-		let quote = SINGLE_MOVIE_QUOTES_MANAGER.quote;
-		let movie = SINGLE_MOVIE_QUOTES_MANAGER.movie;
-		let id    = SINGLE_MOVIE_QUOTES_MANAGER.id;
-		document.querySelector( "#inputQuote" ).value = quote;
-		document.querySelector( "#inputMovie" ).value = movie;
-		const list = document.querySelector( "#quoteListContainer" );
+		let imageUrl = SINGLE_IMAGE_MANAGER.imageUrl;
+		let caption  = SINGLE_IMAGE_MANAGER.caption;
+		let id       = SINGLE_IMAGE_MANAGER.id;
+		document.querySelector( "#inputImage" ).value   = imageUrl;
+		document.querySelector( "#inputCaption" ).value = caption;
+		const list = document.querySelector( "#detailPage" );
 		list.innerHTML = "";
 		const newCard    = ListPageController._createCard(
-								new MovieQuote( id, quote, movie ) );
+								new ImageItem( id, imageUrl, caption ) );
 		list.appendChild( newCard );
+
+		// Trigger change to Bootstrap Material Input
+		var e = document.createEvent( "HTMLEvents" );
+		e.initEvent( "change", false, true );
+		document.querySelector( "#inputImage" ).dispatchEvent( e );
+		document.querySelector( "#inputCaption" ).dispatchEvent( e );
 	}
 
 	// create card
 	static _createCard( movieQuote ) {
 		return htmlToElement(
-			`<div id="${ movieQuote.id }" class="card">
-				<div class="card-body">
-					<h5 class="card-title">${ movieQuote.quote }</h5>
-					<h6 class="card-subtitle mb-2 text-muted">${ movieQuote.movie }</h6>
-				</div>
+			`<div class="pin" id="${ imageData.id }">
+				<img src="${ imageData.imageUrl }" alt="${ imageData.caption }">
+		  		<p class="caption">${ imageData.caption }</p>
 			</div>` );
 	}
 
 }
 
 
-if ( window.location.href.includes( "quote.html" ) ) {
-	let url                         = window.location.search;
-	let urlParam                    = new URLSearchParams( url );
- 	let docID                       = urlParam.get( "id" );
+
+if ( window.location.href.includes( "detail.html" ) ) {
+	let url                    = window.location.search;
+	let urlParam               = new URLSearchParams( url );
+ 	let docID                  = urlParam.get( "id" );
 	if ( !docID ) window.location.href = "/";
-	var SINGLE_MOVIE_QUOTES_MANAGER = new SingleMovieQuotesManager( docID );
-	var DETAIL_PAGE_CONTROLLER      = new DetailPageController();
+	var SINGLE_IMAGE_MANAGER   = new SingleImageManager( docID );
+	var DETAIL_PAGE_CONTROLLER = new DetailPageController();
 } else {
-	var MOVIE_QUOTE_MANAGER         = new MovieQuotesManager();
-	var LIST_PAGE_CONTROLLER        = new ListPageController();
+	var IMAGE_MANAGER         = new ImageListManager();
+	var LIST_PAGE_CONTROLLER  = new ListPageController();
 }
