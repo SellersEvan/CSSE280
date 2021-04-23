@@ -3,7 +3,7 @@
  *   behalf of Rose-Hulman Institute of Technology
  *
  *   author: Evan Sellers <sellersew@gmail.com>
- *   date: Mon Apr 19 2021
+ *   date: Fri Apr 23 2021
  *   original: N/A
  *   file: main.js
  *   project: N/A
@@ -12,20 +12,22 @@
  */
 
 
-const COLLECTION       = "Pic";
-const KEY_IMAGE        = "imageUrl";
-const KEY_CAPTION      = "caption";
-const KEY_LAST_UPDATED = "lastTouched";
+const COLLECTION       = "Pic";													// Firestore Collection ID
+const KEY_IMAGE        = "imageUrl";											// Firestore Document Key for Image Url
+const KEY_CAPTION      = "caption";												// Firestore Document Key for Caption
+const KEY_LAST_UPDATED = "lastTouched";											// Firestore Document Key for Last Updated
 
-// got func from prof
+
+// Generate Html Element
 function htmlToElement(html) {
-	var template = document.createElement('template');
+	var template = document.createElement( "template" );
 	html = html.trim();
 	template.innerHTML = html;
 	return template.content.firstChild;
 }
 
 
+// Image Class
 class ImageItem {
 	constructor( id, imageUrl, caption ) {
 		this.id       = id;
@@ -35,33 +37,47 @@ class ImageItem {
 }
 
 
+// Main Page Manager (w/ list of all images)
 class ImageListManager {
 
-	// Constructor
+	/**
+     *  Class Custructor
+     *  Setup the documents and connect to the collection
+     */
 	constructor() {
 		this.docs   = [];
 		this.socket = null;
 		this.fsdb   = firebase.firestore().collection( COLLECTION );
 	}
 
-	// Open Database Connection
-	openDatabase( changeListener ) {
+	
+    /** Open Database
+     *  Will open the database based on the collection, and if a function is
+     *  passed as a varible will 
+     *  @param { Function } callback called on event trigger
+     */
+	openDatabase( callback ) {
 		this.socket = this.fsdb.orderBy( KEY_LAST_UPDATED, "desc" )
-			.limit(50).onSnapshot((querySnapshot) => {
+			.limit( 50 ).onSnapshot( ( querySnapshot ) => {
 				this.docs = querySnapshot.docs;
-				querySnapshot.forEach( ( doc ) => {
-					console.log( doc.data() );
-				});
-				if ( changeListener ) changeListener();
+				if ( callback ) callback();
 			});
 	}
 
-	// Close Database Connection
+	
+    /** Close Database
+     *  Will close the database connection
+     */
 	closeDatabase() {
 		this.socket();
 	}
 
-	// Add Image
+	
+    /** Add Image
+     *  Will add an image to the database
+     *  @param { String } imageUrl is the url link to existing image
+     *  @param { String } caption is the text for the image
+     */
 	add( imageUrl, caption ) {
 		this.fsdb.add({
 				[ KEY_IMAGE ]: imageUrl,
@@ -74,12 +90,19 @@ class ImageListManager {
 			});
 	}
 
-	// get doc length
+	
+    /** Get Length
+     *  Will return the total amount of documents in the database
+     */
 	get length() {
 		return this.docs.length;
 	}
 
-	// get image by index
+	
+    /** Get Image By Index
+     *  @param { int } index of documetn
+     *  @returns { ImageItem } Image Item With data
+     */
 	getImageByIndex( index ) {
 		let doc = this.docs[ index ];
 		return new ImageItem(
@@ -92,20 +115,25 @@ class ImageListManager {
 }
 
 
+// Main Page Controller (w/ list of all images)
 class ListPageController {
 
-	// custuctor
+	/** Constructor
+	 */
 	constructor() {
 		this.init();
 	}
 
-	// init
+	
+	/** Init
+	 *  Will set all the listener events and open the database
+	 */
 	init() {
-		IMAGE_MANAGER.openDatabase( this.update );
+		LIST_IMAGE_MANAGER.openDatabase( this.update.bind( this ) );
 
 		$( "#addPhotoDialog" ).on( "show.bs.modal", () => {
-			document.querySelector( "#addPhotoDialog #inputImage" ).value = "";
-			document.querySelector( "#addPhotoDialog #inputCaption" ).value = "";
+			document.querySelector( "#inputImage" ).value   = "";
+			document.querySelector( "#inputCaption" ).value = "";
 		});
 
 		$( "#addPhotoDialog" ).on( "shown.bs.modal", () => {
@@ -113,30 +141,35 @@ class ListPageController {
 		});
 
 		document.querySelector( "#sumbitAddPhoto" )
-			.addEventListener( "click", () => {
-				IMAGE_MANAGER.add(
+				.addEventListener( "click", () => { LIST_IMAGE_MANAGER.add(
 						document.querySelector( "#inputImage" ).value,
 						document.querySelector( "#inputCaption" ).value
-					);
-		});
+					)});
 	}
 
-	// update
+
+	/** Update
+	 *  Will be called and trigged when ever data needs to be updated
+	 */
 	update() {
 		const list = document.querySelector( "#listPage" );
 		list.innerHTML = "";
 
-		for ( let i = 0; i < IMAGE_MANAGER.length; i++ ) {
-			const imageData = IMAGE_MANAGER.getImageByIndex( i );
+		for ( let i = 0; i < LIST_IMAGE_MANAGER.length; i++ ) {
+			const imageData = LIST_IMAGE_MANAGER.getImageByIndex( i );
 			const newCard    = ListPageController._createCard( imageData );
 			newCard.addEventListener( "click", () => {
-				window.location.href = `/detail.html?id=${ imageData.id }`;
+				window.location.href = `/pic.html?id=${ imageData.id }`;
 			});
 			list.appendChild( newCard );
 		}
 	}
 
-	// create card
+	
+	/** Create Card
+	 *  @param { ImageData } imageData object contining properties
+	 *  @returns { HTMLElement } data to be placed
+	 */
 	static _createCard( imageData ) {
 		return htmlToElement(
 			`<div class="pin" id="${ imageData.id }">
@@ -186,9 +219,8 @@ class SingleImageManager {
 	}
 
 	// update image
-	update( imageUrl, caption ) {
+	update( caption ) {
 		this.fsdb.update({
-			[ KEY_IMAGE ]: imageUrl,
 			[ KEY_CAPTION ]: caption,
 			[ KEY_LAST_UPDATED ]: firebase.firestore.Timestamp.now(),
 		}).then(() => {
@@ -219,12 +251,11 @@ class DetailPageController {
 		});
 
 		$( "#editImageDialog" ).on( "shown.bs.modal", () => {
-			document.querySelector( "#inputImage" ).focus();
+			document.querySelector( "#inputCaption" ).focus();
 		});
 
 		document.querySelector( "#submitEditImage" ).addEventListener( "click", () => {
 			SINGLE_IMAGE_MANAGER.update(
-					document.querySelector( "#inputImage ").value,
 					document.querySelector( "#inputCaption" ).value
 				);
 		});
@@ -241,25 +272,23 @@ class DetailPageController {
 		let imageUrl = SINGLE_IMAGE_MANAGER.imageUrl;
 		let caption  = SINGLE_IMAGE_MANAGER.caption;
 		let id       = SINGLE_IMAGE_MANAGER.id;
-		document.querySelector( "#inputImage" ).value   = imageUrl;
 		document.querySelector( "#inputCaption" ).value = caption;
 		const list = document.querySelector( "#detailPage" );
 		list.innerHTML = "";
-		const newCard    = ListPageController._createCard(
+		const newCard    = DetailPageController._createCard(
 								new ImageItem( id, imageUrl, caption ) );
 		list.appendChild( newCard );
 
 		// Trigger change to Bootstrap Material Input
 		var e = document.createEvent( "HTMLEvents" );
 		e.initEvent( "change", false, true );
-		document.querySelector( "#inputImage" ).dispatchEvent( e );
 		document.querySelector( "#inputCaption" ).dispatchEvent( e );
 	}
 
 	// create card
-	static _createCard( movieQuote ) {
+	static _createCard( imageData ) {
 		return htmlToElement(
-			`<div class="pin" id="${ imageData.id }">
+			`<div class="pin" id="${ imageData.id }" data-toggle="modal" data-target="#editImageDialog">
 				<img src="${ imageData.imageUrl }" alt="${ imageData.caption }">
 		  		<p class="caption">${ imageData.caption }</p>
 			</div>` );
@@ -269,7 +298,7 @@ class DetailPageController {
 
 
 
-if ( window.location.href.includes( "detail.html" ) ) {
+if ( window.location.href.includes( "pic.html" ) ) {
 	let url                    = window.location.search;
 	let urlParam               = new URLSearchParams( url );
  	let docID                  = urlParam.get( "id" );
@@ -277,6 +306,6 @@ if ( window.location.href.includes( "detail.html" ) ) {
 	var SINGLE_IMAGE_MANAGER   = new SingleImageManager( docID );
 	var DETAIL_PAGE_CONTROLLER = new DetailPageController();
 } else {
-	var IMAGE_MANAGER         = new ImageListManager();
+	var LIST_IMAGE_MANAGER    = new ImageListManager();
 	var LIST_PAGE_CONTROLLER  = new ListPageController();
 }
