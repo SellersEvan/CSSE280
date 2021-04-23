@@ -1,0 +1,32 @@
+body {
+    background: #DDDDDD;
+}
+
+.navbar {
+    background-color: white;
+    color: black;
+}
+
+.page-container {
+    margin-top: 75px;
+}
+
+
+#fab {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 999;
+    background: black;
+    color: white;
+    border-radius: 10rem;
+}
+
+.card {
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.dropdown-menu-right {
+    left: -130px;
+}
