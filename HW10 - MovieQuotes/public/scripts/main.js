@@ -1,21 +1,11 @@
-/*
- *   Edited by Evan Sellers <sellersew@gmail.com> on
- *   behalf of Rose-Hulman Institute of Technology
- *
- *   author: Evan Sellers <sellersew@gmail.com>
- *   date: Mon Apr 19 2021
- *   original: N/A
- *   file: main.js
- *   project: N/A
- *   purpose: N/A
- *
- */
-
-
+const AUTH_TOKEN       = "63c1ac55-cd7b-4b68-86dc-058cdaad387a";
 const COLLECTION       = "MovieQuotes";
 const KEY_QUOTE        = "quote";
 const KEY_MOVIE        = "movie";
+const KEY_AUTHOR       = "author";
 const KEY_LAST_UPDATED = "lastTouched";
+
+
 
 // got func from prof
 function htmlToElement(html) {
@@ -27,31 +17,31 @@ function htmlToElement(html) {
 
 
 class MovieQuote {
-	constructor( id, quote, movie ) {
-		this.id    = id;
-		this.quote = quote;
-		this.movie = movie;
+	constructor( id, quote, movie, author ) {
+		this.id     = id;
+		this.quote  = quote;
+		this.movie  = movie;
+		this.author = author;
 	}
 }
 
 
-class MovieQuotesManager {
+class ListPageManager {
 
 	// Constructor
-	constructor() {
+	constructor( uid ) {
 		this.docs   = [];
 		this.socket = null;
 		this.fsdb   = firebase.firestore().collection( COLLECTION );
+		this.uid    = uid;
 	}
 
 	// Open Database Connection
 	openDatabase( changeListener ) {
-		this.socket = this.fsdb.orderBy( KEY_LAST_UPDATED, "desc" )
-			.limit(50).onSnapshot((querySnapshot) => {
+		let query = this.fsdb.orderBy( KEY_LAST_UPDATED, "desc" ).limit( 50 );
+		if ( this.uid ) query = query.where( KEY_AUTHOR, "==", this.uid );
+		this.socket = query.onSnapshot((querySnapshot) => {
 				this.docs = querySnapshot.docs;
-				querySnapshot.forEach( ( doc ) => {
-					console.log( doc.data() );
-				});
 				if ( changeListener ) changeListener();
 			});
 	}
@@ -66,6 +56,7 @@ class MovieQuotesManager {
 		this.fsdb.add({
 				[ KEY_QUOTE ]: quote,
 				[ KEY_MOVIE ]: movie,
+				[ KEY_AUTHOR ]: iface.loginManager.uid,
 				[ KEY_LAST_UPDATED ]: firebase.firestore.Timestamp.now()
 			}).then( addedDoc => {
 				console.log( "Doc Added: " + addedDoc.id );
@@ -85,7 +76,8 @@ class MovieQuotesManager {
 		return new MovieQuote(
 				doc.id,
 				doc.get( KEY_QUOTE ),
-				doc.get( KEY_MOVIE )
+				doc.get( KEY_MOVIE ),
+				doc.get( KEY_AUTHOR )
 			);
 	}
 
@@ -96,12 +88,7 @@ class ListPageController {
 
 	// custuctor
 	constructor() {
-		this.init();
-	}
-
-	// init
-	init() {
-		MOVIE_QUOTE_MANAGER.openDatabase( this.update );
+		iface.ListPageManager.openDatabase( this.update );
 
 		$( "#addQuoteDialog" ).on( "show.bs.modal", () => {
 			document.querySelector( "#addQuoteDialog #inputQuote" ).value = "";
@@ -114,20 +101,21 @@ class ListPageController {
 
 		document.querySelector( "#submitAddQuote" )
 			.addEventListener( "click", () => {
-				MOVIE_QUOTE_MANAGER.add(
+				iface.ListPageManager.add(
 						document.querySelector( "#inputQuote" ).value,
 						document.querySelector( "#inputMovie" ).value
 					);
 		});
 	}
 
+
 	// update
 	update() {
 		const list = document.querySelector( "#quoteListContainer" );
 		list.innerHTML = "";
 
-		for ( let i = 0; i < MOVIE_QUOTE_MANAGER.length; i++ ) {
-			const movieQuote = MOVIE_QUOTE_MANAGER.getMovieQuoteByIndex( i );
+		for ( let i = 0; i < iface.ListPageManager.length; i++ ) {
+			const movieQuote = iface.ListPageManager.getMovieQuoteByIndex( i );
 			const newCard    = ListPageController._createCard( movieQuote );
 			newCard.addEventListener( "click", () => {
 				window.location.href = `/quote.html?id=${ movieQuote.id }`;
@@ -143,6 +131,7 @@ class ListPageController {
 				<div class="card-body">
 					<h5 class="card-title">${ movieQuote.quote }</h5>
 					<h6 class="card-subtitle mb-2 text-muted">${ movieQuote.movie }</h6>
+					${ ( movieQuote.author ) ? `<p>Posted by ${ ( movieQuote.author == iface.loginManager.uid ) ? "me" : movieQuote.author }</p>` : "" }
 				</div>
 			</div>` );
 	}
@@ -150,7 +139,7 @@ class ListPageController {
 }
 
 
-class SingleMovieQuotesManager {
+class DetailPageManager {
 
 	// custructor
 	constructor( movieQuoteID ) {
@@ -187,20 +176,34 @@ class SingleMovieQuotesManager {
 		return this.doc.get( KEY_MOVIE );
 	}
 
+	// get author
+	get author() {
+		return this.doc.get( KEY_AUTHOR );
+	}
+
 	// update movie
 	update( quote, movie ) {
-		this.fsdb.update({
-			[ KEY_QUOTE ]: quote,
-			[ KEY_MOVIE ]: movie,
-			[ KEY_LAST_UPDATED ]: firebase.firestore.Timestamp.now(),
-		}).then(() => {
-			console.log( "doc updated" );
-		});
+		if ( this.author == iface.loginManager.uid ) {
+			this.fsdb.update({
+				[ KEY_QUOTE ]: quote,
+				[ KEY_MOVIE ]: movie,
+				[ KEY_LAST_UPDATED ]: firebase.firestore.Timestamp.now(),
+			}).then(() => {
+				console.log( "doc updated" );
+			});
+		} else {
+			console.log( "Permission Denieded" );
+		}
 	}
 
 	// delete document
 	delete() {
-		return this.fsdb.delete();
+		if ( this.author == iface.loginManager.uid ) {
+			return this.fsdb.delete();
+		} else {
+			console.log( "Permission Denieded" );
+			return false;
+		}
 	}
 }
 
@@ -209,12 +212,11 @@ class DetailPageController {
 
 	// Constucotr
 	constructor() {
-		this.init();
-	}
 
-	// init
-	init() {
-		SINGLE_MOVIE_QUOTES_MANAGER.openDatabase( this.update );
+		let editQuoteBtn   = document.querySelector( "#submitEditQuote" );
+		let deleteQuoteBtn = document.querySelector( "#submitDeleteQuote" );
+
+		iface.DetailPageManager.openDatabase( this.update );
 
 		$( "#editQuoteDialog" ).on( "show.bs.modal", () => {
 			this.update();
@@ -224,31 +226,43 @@ class DetailPageController {
 			document.querySelector( "#inputQuote" ).focus();
 		});
 
-		document.querySelector( "#submitEditQuote" ).addEventListener( "click", () => {
-			SINGLE_MOVIE_QUOTES_MANAGER.update(
+		editQuoteBtn.addEventListener( "click", () => {
+			iface.DetailPageManager.update(
 					document.querySelector( "#inputQuote ").value,
 					document.querySelector( "#inputMovie" ).value
 				);
 		});
 
-		document.querySelector( "#submitDeleteQuote" ).addEventListener( "click", () => {
-			SINGLE_MOVIE_QUOTES_MANAGER.delete().then( () => {
-				window.location.href = "/";
+		deleteQuoteBtn.addEventListener( "click", () => {
+			iface.DetailPageManager.delete().then( () => {
+				window.location.href = `/list.html?uid=${ iface.loginManager.uid }`;
 			});
 		});
 	}
 
 	// update
 	update() {
-		let quote = SINGLE_MOVIE_QUOTES_MANAGER.quote;
-		let movie = SINGLE_MOVIE_QUOTES_MANAGER.movie;
-		let id    = SINGLE_MOVIE_QUOTES_MANAGER.id;
+		let quote     = iface.DetailPageManager.quote;
+		let movie     = iface.DetailPageManager.movie;
+		let id        = iface.DetailPageManager.id;
+		let author    = iface.DetailPageManager.author;
+		let editFab   = document.querySelector( "#fab" );
+		let dropdown  = document.querySelector( ".dropdown" );
+
+		if ( iface.DetailPageManager.author == iface.loginManager.uid ) {
+			editFab   .style.display = "block";
+			dropdown  .style.display = "block";
+		} else {
+			editFab   .style.display = "none";
+			dropdown  .style.display = "none";
+		}
+
 		document.querySelector( "#inputQuote" ).value = quote;
 		document.querySelector( "#inputMovie" ).value = movie;
 		const list = document.querySelector( "#quoteListContainer" );
 		list.innerHTML = "";
-		const newCard    = ListPageController._createCard(
-								new MovieQuote( id, quote, movie ) );
+		const newCard    = DetailPageController._createCard(
+								new MovieQuote( id, quote, movie, author ) );
 		list.appendChild( newCard );
 	}
 
@@ -259,21 +273,132 @@ class DetailPageController {
 				<div class="card-body">
 					<h5 class="card-title">${ movieQuote.quote }</h5>
 					<h6 class="card-subtitle mb-2 text-muted">${ movieQuote.movie }</h6>
+					${ ( movieQuote.author ) ? `<p>Posted by ${ ( movieQuote.author == iface.loginManager.uid ) ? "me" : movieQuote.author }</p>` : "" }
 				</div>
 			</div>` );
 	}
 
 }
 
+class AuthManager {
 
-if ( window.location.href.includes( "quote.html" ) ) {
-	let url                         = window.location.search;
-	let urlParam                    = new URLSearchParams( url );
- 	let docID                       = urlParam.get( "id" );
-	if ( !docID ) window.location.href = "/";
-	var SINGLE_MOVIE_QUOTES_MANAGER = new SingleMovieQuotesManager( docID );
-	var DETAIL_PAGE_CONTROLLER      = new DetailPageController();
-} else {
-	var MOVIE_QUOTE_MANAGER         = new MovieQuotesManager();
-	var LIST_PAGE_CONTROLLER        = new ListPageController();
+	// constructor
+	constructor() {
+		this.user = null;
+	}
+
+	// Start Listening
+	beginListening( changeListener ) {
+		firebase.auth().onAuthStateChanged( user => {
+			this.user = user;
+			changeListener();
+		});
+	}
+
+	// Allow Signin
+	signIn() {
+		Rosefire.signIn( AUTH_TOKEN, ( err, rfUser ) => {
+			if ( err ) {
+				console.log( "Rosefire error", err );
+				return;
+			}
+
+			firebase.auth().signInWithCustomToken( rfUser.token ).catch( err => {
+				if ( err.code === 'auth/invalid-custom-token' ) {
+					console.log( "Token Not Valid" );
+				} else {
+					console.log( "error", err.message );
+				}
+			});
+		});
+	}
+
+	// Signout
+	signOut() {
+		firebase.auth().signOut();
+	}
+
+	// Get User ID
+	get uid() {
+		return this.user.uid;
+	}
+
+	// Is Signed Out (Boolean)
+	get isSignedIn() {
+		return !!this.user;
+	}
+
+	// Do Login Redirect
+	authRedirect() {
+		let isLogin = !!document.querySelector( "[page='loginPage']" );
+		if ( isLogin && this.isSignedIn ) window.location.href = "/list.html";
+		if ( !isLogin && !this.isSignedIn ) window.location.href = "/";
+	}
 }
+
+
+
+class ControllerLoginPage {
+	constructor() {
+		let button = document.querySelector( "#loginButton" );
+		button.addEventListener( "click", () => {
+			iface.loginManager.signIn();
+		});
+	}
+}
+
+
+class Page {
+	static init() {
+		let isList   = document.querySelector( "[page='listPage']"   );
+		let isDetail = document.querySelector( "[page='detailPage']" );
+		let isLogin  = document.querySelector( "[page='loginPage']"  );
+
+		if ( isList ) {
+			let urlParams = new URLSearchParams( window.location.search );
+			let uid       = urlParams.get( "uid" );
+			iface.ListPageManager    = new ListPageManager( uid );
+			iface.ListPageController = new ListPageController();
+		}
+
+		if ( isDetail ) {
+			let urlParams = new URLSearchParams( window.location.search );
+			let id        = urlParams.get( "id" );
+			iface.DetailPageManager    = new DetailPageManager( id );
+			iface.DetailPageController = new DetailPageController();
+		}
+
+		if ( isDetail || isList ) {
+			let btnLogout    = document.querySelector( "#menuLogout" );
+			let btnAllQuotes = document.querySelector( "#menuAllQuotes" );
+			let btnMyQuotes  = document.querySelector( "#menuMyQuotes" );
+
+			btnLogout.addEventListener( "click", event => {
+				console.log( "Sign out" );
+				iface.loginManager.signOut();
+			});
+
+			btnAllQuotes.addEventListener( "click", event => {
+				window.location.href = "/list.html";
+			});
+
+			btnMyQuotes.addEventListener( "click", event => {
+				window.location.href = `/list.html?uid=${ iface.loginManager.uid}`;
+			});
+		}
+
+		if ( isLogin ) {
+			new ControllerLoginPage();
+		}
+	}
+}
+
+
+
+var iface = {};
+iface.loginManager = new AuthManager();
+iface.loginManager.beginListening( () => {
+	console.log( `Login ${ iface.loginManager.isSignedIn } : ${ (iface.loginManager.isSignedIn) ? iface.loginManager.uid : "" }` );
+	iface.loginManager.authRedirect();
+	Page.init();
+});
