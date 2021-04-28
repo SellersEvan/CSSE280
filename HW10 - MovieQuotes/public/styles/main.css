@@ -35,10 +35,11 @@ body {
     left: -130px;
 }
 
-.bmd-layout-content {
-    height: 100vh;
-}
 
+
+.flex-grow {
+    flex-grow: 1;
+}
 
 #loginLogo {
     margin: 20px auto;
@@ -55,3 +56,14 @@ body {
     padding: 10px 30px;
     border-radius: 5px;
 }
+
+
+/* Drawer Fixes */
+.bmd-layout-content {
+    min-height: 100vh;
+}
+
+.bmd-layout-drawer {
+    position: fixed;
+}
+

@@ -10,27 +10,62 @@
 	<title>Movie Quotes</title>
 </head>
 
-<body>
+<body page="detailPage">
 
-	<!-- Nav Bar -->
-	<nav class="navbar navbar-light fixed-top">
-		<a class="navbar-brand" href="/">Movie Quotes</a>
-		<div class="dropdown pull-xs-right">
-			<button class="btn bmd-btn-icon dropdown-toggle" type="button" id="lr1" data-toggle="dropdown"
-				aria-haspopup="true" aria-expanded="false">
-				<i class="material-icons">more_vert</i>
-				<div class="ripple-container"></div>
-			</button>
-			<div class="dropdown-menu dropdown-menu-right">
-				<button class="dropdown-item" type="button" data-toggle="modal" data-target="#editQuoteDialog">
-					<i class="material-icons">edit</i>Edit
+	<div class="bmd-layout-container bmd-drawer-f-l bmd-drawer-overlay">
+		<header class="bmd-layout-header">
+			<div class="navbar navbar-light bg-faded justify-content-start fixed-top">
+				<button class="navbar-toggler" type="button" data-toggle="drawer" data-target="#dw-s2">
+					<span class="sr-only">Toggle drawer</span>
+					<i class="material-icons">menu</i>
 				</button>
-				<button class="dropdown-item" type="button" data-toggle="modal" data-target="#deleteQuoteDialog">
-					<i class="material-icons">delete</i>Delete
-				</button>
+				<ul class="nav navbar-nav ml-3 h5 flex-grow">
+					<a class="navbar-brand" href="/list.html">Movie Quotes</a>
+				</ul>
+				<div class="dropdown pull-xs-right">
+					<button class="btn bmd-btn-icon dropdown-toggle" type="button" id="lr1" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false">
+						<i class="material-icons">more_vert</i>
+					</button>
+					<div class="dropdown-menu dropdown-menu-right">
+						<button class="dropdown-item" type="button" data-toggle="modal" data-target="#editQuoteDialog">
+							<i class="material-icons">edit</i>Edit
+						</button>
+						<button class="dropdown-item" type="button" data-toggle="modal" data-target="#deleteQuoteDialog">
+							<i class="material-icons">delete</i>Delete
+						</button>
+					</div>
+				</div>
 			</div>
+		</header>
+		<div id="dw-s2" class="bmd-layout-drawer bg-faded">
+			<header>
+				<a class="navbar-brand">Movie Quotes</a>
+			</header>
+			<ul class="list-group">
+				<a id="menuAllQuotes" class="list-group-item cursor-pointer">
+					<i class="material-icons mr-3">people_alt</i>
+					Show all quotes
+				</a>
+				<a id="menuMyQuotes" class="list-group-item cursor-pointer">
+					<i class="material-icons mr-3">person</i>
+					Show my quotes
+				</a>
+				<a id="menuLogout" class="list-group-item cursor-pointer">
+					<i class="material-icons mr-3">login</i>
+					Sign Out
+				</a>
+			</ul>
 		</div>
-	</nav>
+		<main class="bmd-layout-content">
+			<div class="container page-container">
+				<div id="quoteListContainer">
+					<!-- Insert Cards -->
+				</div>
+			</div>
+		</main>
+	</div>
+
 
 	<!-- Edit -->
 	<div class="modal fade show" id="editQuoteDialog" role="dialog">
@@ -83,12 +118,6 @@
 		<i class="material-icons">edit</i>
 	</button>
 
-	<!-- Main Body -->
-	<div id="mainPage" class="container page-container">
-		<div id="quoteListContainer">
-			<!-- Insert Cards -->
-		</div>
-	</div>
 
 
 	<script src="scripts/jquery.min.js"></script>
