@@ -1,10 +1,23 @@
+/*
+ *   Edited by Evan Sellers <sellersew@gmail.com> on
+ *   behalf of Rose-Hulman Institute of Technology
+ *
+ *   author: Evan Sellers <sellersew@gmail.com>
+ *   date: Wed Apr 28 2021
+ *   original: N/A
+ *   file: main.js
+ *   project: N/A
+ *   purpose: N/A
+ *
+ */
+
+
 const AUTH_TOKEN       = "63c1ac55-cd7b-4b68-86dc-058cdaad387a";
 const COLLECTION       = "MovieQuotes";
 const KEY_QUOTE        = "quote";
 const KEY_MOVIE        = "movie";
 const KEY_AUTHOR       = "author";
 const KEY_LAST_UPDATED = "lastTouched";
-
 
 
 // got func from prof
