@@ -32,6 +32,7 @@ rhit.ListPageController = class {
 			// Pre animation
 			document.querySelector("#inputQuote").value = "";
 			document.querySelector("#inputMovie").value = "";
+			document.querySelector("#inputYear").value = "";
 		});
 		$("#addQuoteDialog").on("shown.bs.modal", (event) => {
 			// Post animation
@@ -73,10 +74,17 @@ rhit.ListPageController = class {
 	}
 
 	_createCard(movieQuote) {
+
+		let movieDate = new Date();
+			movieDate.setFullYear( movieQuote.year );
+		let curreDate = new Date();
+		let years     = curreDate.getFullYear() - movieDate.getFullYear();
+
 		return htmlToElement(`<div class="card">
 		<div class="card-body">
 			<h5 class="card-title">${movieQuote.quote}</h5>
 			<h6 class="card-subtitle mb-2 text-muted">${movieQuote.movie}</h6>
+			${ !isNaN( movieQuote.year ) ? ( years == 0 ) ? "<h6 class='card-subtitle mb-0 text-muted'>this year</h6>" : `<h6 class='card-subtitle mb-0 text-muted'>${ years } years ago</h6>` : "" }
 		</div>
 	</div>`);
 	}
@@ -143,7 +151,8 @@ rhit.FbMovieQuotesManager = class {
 		const docSnapshot = this._documentSnapshots[index];
 		const mq = new rhit.MovieQuote(docSnapshot.id,
 			docSnapshot.get(rhit.FB_KEY_QUOTE),
-			docSnapshot.get(rhit.FB_KEY_MOVIE));
+			docSnapshot.get(rhit.FB_KEY_MOVIE),
+			docSnapshot.get(rhit.FB_KEY_YEAR));
 		return mq;
 	}
 }
@@ -154,14 +163,17 @@ rhit.DetailPageController = class {
 		document.querySelector("#submitEditQuote").addEventListener("click", (event) => {
 			const quote = document.querySelector("#inputQuote").value;
 			const movie = document.querySelector("#inputMovie").value;
-			rhit.fbSingleQuoteManager.update(quote, movie);
+			const year  = document.querySelector("#inputYear").value;
+			rhit.fbSingleQuoteManager.update( quote, movie, year );
 		});
 
 		$("#editQuoteDialog").on("show.bs.modal", (event) => {
 			// Pre animation
 			document.querySelector("#inputQuote").value = rhit.fbSingleQuoteManager.quote;
 			document.querySelector("#inputMovie").value = rhit.fbSingleQuoteManager.movie;
+			document.querySelector("#inputYear").value  = rhit.fbSingleQuoteManager.year;
 		});
+
 		$("#editQuoteDialog").on("shown.bs.modal", (event) => {
 			// Post animation
 			document.querySelector("#inputQuote").focus();
@@ -179,6 +191,23 @@ rhit.DetailPageController = class {
 	updateView() {
 		document.querySelector("#cardQuote").innerHTML = rhit.fbSingleQuoteManager.quote;
 		document.querySelector("#cardMovie").innerHTML = rhit.fbSingleQuoteManager.movie;
+
+		if ( !isNaN( rhit.fbSingleQuoteManager.year ) ) {
+			let movieDate = new Date();
+			movieDate.setFullYear( rhit.fbSingleQuoteManager.year );
+			let curreDate = new Date();
+			let years     = curreDate.getFullYear() - movieDate.getFullYear();
+			document.querySelector("#cardYear").style.display = "block";
+			if ( years == 0 ) {
+				document.querySelector("#cardYear").innerHTML  = "this year";
+			} else {
+				document.querySelector("#cardYear").innerHTML  = years + " years ago";
+			}
+		} else {
+			document.querySelector("#cardYear").style.display = "none";
+		}
+
+		
 	}
 }
 
@@ -207,10 +236,11 @@ rhit.FbSingleQuoteManager = class {
 		this._unsubscribe();
 	}
 
-	update(quote, movie) {
+	update(quote, movie,year ) {
 		this._ref.update({
 				[rhit.FB_KEY_QUOTE]: quote,
 				[rhit.FB_KEY_MOVIE]: movie,
+				[rhit.FB_KEY_YEAR]:  year,
 				[rhit.FB_KEY_LAST_TOUCHED]: firebase.firestore.Timestamp.now(),
 			})
 			.then(() => {
@@ -232,6 +262,10 @@ rhit.FbSingleQuoteManager = class {
 
 	get movie() {
 		return this._documentSnapshot.get(rhit.FB_KEY_MOVIE);
+	}
+
+	get year() {
+		return this._documentSnapshot.get(rhit.FB_KEY_YEAR);
 	}
 }
 
