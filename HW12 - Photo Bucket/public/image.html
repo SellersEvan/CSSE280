@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
 	<link rel="stylesheet" href="styles/bootstrap-material-design.min.css">
 	<link rel="stylesheet" href="styles/main.css">
-	<title>Movie Quotes</title>
+	<title>Photo Bucket</title>
 </head>
 
 <body page="detailPage">
@@ -20,7 +20,7 @@
 					<i class="material-icons">menu</i>
 				</button>
 				<ul class="nav navbar-nav ml-3 h5 flex-grow">
-					<a class="navbar-brand" href="/list.html">Movie Quotes</a>
+					<a class="navbar-brand" href="/list.html">Photo Bucket</a>
 				</ul>
 				<div class="dropdown pull-xs-right">
 					<button class="btn bmd-btn-icon dropdown-toggle" type="button" id="lr1" data-toggle="dropdown"
@@ -28,10 +28,10 @@
 						<i class="material-icons">more_vert</i>
 					</button>
 					<div class="dropdown-menu dropdown-menu-right">
-						<button class="dropdown-item" type="button" data-toggle="modal" data-target="#editQuoteDialog">
+						<button class="dropdown-item" type="button" data-toggle="modal" data-target="#editImageDialog">
 							<i class="material-icons">edit</i>Edit
 						</button>
-						<button class="dropdown-item" type="button" data-toggle="modal" data-target="#deleteQuoteDialog">
+						<button class="dropdown-item" type="button" data-toggle="modal" data-target="#deleteImageDialog">
 							<i class="material-icons">delete</i>Delete
 						</button>
 					</div>
@@ -40,16 +40,16 @@
 		</header>
 		<div id="dw-s2" class="bmd-layout-drawer bg-faded">
 			<header>
-				<a class="navbar-brand">Movie Quotes</a>
+				<a class="navbar-brand">Photo Bucket</a>
 			</header>
 			<ul class="list-group">
-				<a id="menuAllQuotes" class="list-group-item cursor-pointer">
+				<a id="menuAllImages" class="list-group-item cursor-pointer">
 					<i class="material-icons mr-3">people_alt</i>
-					Show all quotes
+					Show all Images
 				</a>
-				<a id="menuMyQuotes" class="list-group-item cursor-pointer">
+				<a id="menuMyImages" class="list-group-item cursor-pointer">
 					<i class="material-icons mr-3">person</i>
-					Show my quotes
+					Show my Images
 				</a>
 				<a id="menuLogout" class="list-group-item cursor-pointer">
 					<i class="material-icons mr-3">login</i>
@@ -59,7 +59,7 @@
 		</div>
 		<main class="bmd-layout-content">
 			<div class="container page-container">
-				<div id="quoteListContainer">
+				<div id="imageListContainer">
 					<!-- Insert Cards -->
 				</div>
 			</div>
@@ -68,26 +68,21 @@
 
 
 	<!-- Edit -->
-	<div class="modal fade show" id="editQuoteDialog" role="dialog">
+	<div class="modal fade show" id="editImageDialog" role="dialog">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Edit quote</h5>
+					<h5 class="modal-title">Edit Image</h5>
 				</div>
 				<div class="modal-body">
 					<div class="form-group bmd-form-group">
-						<label for="inputQuote" class="bmd-label-static">Quote</label>
-						<input type="text" class="form-control" id="inputQuote" placeholder="">
-					</div>
-					<div class="form-group bmd-form-group">
-						<label for="inputMovie" class="bmd-label-static">Movie</label>
-						<input type="text" class="form-control" id="inputMovie" placeholder="">
-						<span class="bmd-help">What movie is this quote from?</span>
+						<label for="inputCaption" class="bmd-label-static">Caption</label>
+						<input type="text" class="form-control" id="inputCaption" placeholder="">
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancle</button>
-					<button type="button" id="submitEditQuote" class="btn btn-primary"
+					<button type="button" id="submitEditImage" class="btn btn-primary"
 						data-dismiss="modal">Save</button>
 				</div>
 			</div>
@@ -95,18 +90,18 @@
 	</div>
 
 	<!-- Delete -->
-	<div class="modal fade show" id="deleteQuoteDialog" role="dialog">
+	<div class="modal fade show" id="deleteImageDialog" role="dialog">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Delete quote</h5>
+					<h5 class="modal-title">Delete image</h5>
 				</div>
 				<div class="modal-body">
-					Are you sure you want to delete this movie quote?
+					Are you sure you want to delete this image?
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-					<button type="button" id="submitDeleteQuote" class="btn btn-primary"
+					<button type="button" id="submitDeleteImage" class="btn btn-primary"
 						data-dismiss="modal">Delete</button>
 				</div>
 			</div>
@@ -114,7 +109,7 @@
 	</div>
 
 	<!-- Floating Action Icon -->
-	<button id="fab" type="button" class="btn bmd-btn-fab" data-toggle="modal" data-target="#editQuoteDialog">
+	<button id="fab" type="button" class="btn bmd-btn-fab" data-toggle="modal" data-target="#editImageDialog">
 		<i class="material-icons">edit</i>
 	</button>
 

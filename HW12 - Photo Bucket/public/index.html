@@ -5,20 +5,22 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+	<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
 	<link rel="stylesheet" href="styles/bootstrap-material-design.min.css">
 	<link rel="stylesheet" href="styles/main.css">
-	<title>Movie Quotes Auth</title>
+	<title>Photo Bucket Auth</title>
 </head>
 
 <body page="loginPage">
 	<nav class="navbar navbar-light fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="#">Movie Quotes Auth</a>
+			<a class="navbar-brand" href="#">Photo Bucket</a>
 		</div>
 	</nav>
 
 	<div class="container page-container">
-		<img id="loginLogo" src="/imgs/rose_logo.png" alt="Rose-Hulman Logo">
+		<div class="display-4 text-center pb-4">Please Sign in to use Photo Bucket</div>
+		<div id="firebaseui-auth-container"></div>
 		<button id="loginButton" type="button" class="btn">Signin with Rosefire</button>
 	</div>
 
@@ -28,6 +30,7 @@
 	<script>
 		$("body").bootstrapMaterialDesign();
 	</script>
+	<script src="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.js"></script>
 	<script src="/__/firebase/7.18.0/firebase-app.js"></script>
 	<script src="/__/firebase/7.18.0/firebase-analytics.js"></script>
 	<script src="/__/firebase/7.18.0/firebase-firestore.js"></script>

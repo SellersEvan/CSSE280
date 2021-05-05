@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
 	<link rel="stylesheet" href="styles/bootstrap-material-design.min.css">
 	<link rel="stylesheet" href="styles/main.css">
-	<title>Movie Quotes</title>
+	<title>Photo Bucket</title>
 </head>
 
 <body page="listPage">
@@ -21,22 +21,22 @@
 					<i class="material-icons">menu</i>
 				</button>
 				<ul class="nav navbar-nav ml-3 h5">
-					<a class="navbar-brand" href="/list.html">Movie Quotes</a>
+					<a class="navbar-brand" href="/list.html">Photo Bucket</a>
 				</ul>
 			</div>
 		</header>
 		<div id="dw-s2" class="bmd-layout-drawer bg-faded">
 			<header>
-				<a class="navbar-brand">Movie Quotes</a>
+				<a class="navbar-brand">Photo Bucket</a>
 			</header>
 			<ul class="list-group">
-				<a id="menuAllQuotes" class="list-group-item cursor-pointer">
+				<a id="menuAllImages" class="list-group-item cursor-pointer">
 					<i class="material-icons mr-3">people_alt</i>
-					Show all quotes
+					Show all Images
 				</a>
-				<a id="menuMyQuotes" class="list-group-item cursor-pointer">
+				<a id="menuMyImages" class="list-group-item cursor-pointer">
 					<i class="material-icons mr-3">person</i>
-					Show my quotes
+					Show my Images
 				</a>
 				<a id="menuLogout" class="list-group-item cursor-pointer">
 					<i class="material-icons mr-3">login</i>
@@ -46,41 +46,42 @@
 		</div>
 		<main class="bmd-layout-content">
 			<div class="container page-container">
-				<div id="quoteListContainer">
+				<div id="imageListContainer">
 					<!-- Insert Cards -->
 				</div>
 			</div>
 		</main>
 	</div>
 
-	<!-- Add Quote Popup -->
-	<div class="modal fade show" id="addQuoteDialog">
+	<!-- Add Photo Popup -->
+	<div class="modal fade show" id="addPhotoDialog">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Add Quote</h5>
+					<h5 class="modal-title">Add a Photo</h5>
 				</div>
 				<div class="modal-body">
 					<div class="form-group bmd-form-group">
-						<label for="inputQuote" class="bmd-label-floating">Quote</label>
-						<input type="text" class="form-control" id="inputQuote">
+						<label for="inputImage" class="bmd-label-floating">Image</label>
+						<input type="text" class="form-control" id="inputImage">
+						<span class="bmd-help">URL of Existing Image</span>
 					</div>
 					<div class="form-group bmd-form-group">
-						<label for="inputMovie" class="bmd-label-floating">Movie</label>
-						<input type="text" class="form-control" id="inputMovie">
-						<span class="bmd-help">What movie is this quote from?</span>
+						<label for="inputCaption" class="bmd-label-floating">Caption</label>
+						<input type="text" class="form-control" id="inputCaption">
+						<span class="bmd-help">Image Related Text</span>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-					<button type="button" id="submitAddQuote" class="btn btn-primary" data-dismiss="modal">Save</button>
+					<button type="button" id="sumbitAddPhoto" class="btn btn-primary" data-dismiss="modal">Save</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- Floating Action Button -->
-	<button id="fab" type="button" class="btn bmd-btn-fab" data-toggle="modal" data-target="#addQuoteDialog">
+	<button id="fab" type="button" class="btn bmd-btn-fab" data-toggle="modal" data-target="#addPhotoDialog">
 		<i class="material-icons">add</i>
 	</button>
 

@@ -13,9 +13,9 @@
 
 
 const AUTH_TOKEN       = "63c1ac55-cd7b-4b68-86dc-058cdaad387a";
-const COLLECTION       = "MovieQuotes";
-const KEY_QUOTE        = "quote";
-const KEY_MOVIE        = "movie";
+const COLLECTION       = "Pic";													// Firestore Collection ID
+const KEY_IMAGE        = "imageUrl";											// Firestore Document Key for Image Url
+const KEY_CAPTION      = "caption";												// Firestore Document Key for Caption
 const KEY_AUTHOR       = "author";
 const KEY_LAST_UPDATED = "lastTouched";
 
@@ -29,12 +29,13 @@ function htmlToElement(html) {
 }
 
 
-class MovieQuote {
-	constructor( id, quote, movie, author ) {
-		this.id     = id;
-		this.quote  = quote;
-		this.movie  = movie;
-		this.author = author;
+// Image Class
+class ImageItem {
+	constructor( id, imageUrl, caption, author  ) {
+		this.id       = id;
+		this.imageUrl = imageUrl;
+		this.caption  = caption;
+		this.author   = author;
 	}
 }
 
@@ -64,11 +65,11 @@ class ListPageManager {
 		this.socket();
 	}
 
-	// Add Quote
-	add( quote, movie ) {
+	// Add Image
+	add( imgURL, caption ) {
 		this.fsdb.add({
-				[ KEY_QUOTE ]: quote,
-				[ KEY_MOVIE ]: movie,
+				[ KEY_IMAGE ]: imgURL,
+				[ KEY_CAPTION ]: caption,
 				[ KEY_AUTHOR ]: iface.loginManager.uid,
 				[ KEY_LAST_UPDATED ]: firebase.firestore.Timestamp.now()
 			}).then( addedDoc => {
@@ -83,13 +84,13 @@ class ListPageManager {
 		return this.docs.length;
 	}
 
-	// get movie quote by index
-	getMovieQuoteByIndex( index ) {
+	// get image by index
+	getImageByIndex( index ) {
 		let doc = this.docs[ index ];
-		return new MovieQuote(
+		return new ImageItem(
 				doc.id,
-				doc.get( KEY_QUOTE ),
-				doc.get( KEY_MOVIE ),
+				doc.get( KEY_IMAGE ),
+				doc.get( KEY_CAPTION ),
 				doc.get( KEY_AUTHOR )
 			);
 	}
@@ -103,20 +104,20 @@ class ListPageController {
 	constructor() {
 		iface.ListPageManager.openDatabase( this.update );
 
-		$( "#addQuoteDialog" ).on( "show.bs.modal", () => {
-			document.querySelector( "#addQuoteDialog #inputQuote" ).value = "";
-			document.querySelector( "#addQuoteDialog #inputMovie" ).value = "";
+		$( "#addPhotoDialog" ).on( "show.bs.modal", () => {
+			document.querySelector( "#addPhotoDialog #inputImage" ).value = "";
+			document.querySelector( "#addPhotoDialog #inputCaption" ).value = "";
 		});
 
-		$( "#addQuoteDialog" ).on("shown.bs.modal", () => {
-			document.querySelector( "#inputQuote" ).focus();
+		$( "#addPhotoDialog" ).on("shown.bs.modal", () => {
+			document.querySelector( "#inputImage" ).focus();
 		});
 
-		document.querySelector( "#submitAddQuote" )
+		document.querySelector( "#sumbitAddPhoto" )
 			.addEventListener( "click", () => {
 				iface.ListPageManager.add(
-						document.querySelector( "#inputQuote" ).value,
-						document.querySelector( "#inputMovie" ).value
+						document.querySelector( "#inputImage" ).value,
+						document.querySelector( "#inputCaption" ).value
 					);
 		});
 	}
@@ -124,28 +125,26 @@ class ListPageController {
 
 	// update
 	update() {
-		const list = document.querySelector( "#quoteListContainer" );
+		const list = document.querySelector( "#imageListContainer" );
 		list.innerHTML = "";
 
 		for ( let i = 0; i < iface.ListPageManager.length; i++ ) {
-			const movieQuote = iface.ListPageManager.getMovieQuoteByIndex( i );
-			const newCard    = ListPageController._createCard( movieQuote );
+			const image   = iface.ListPageManager.getImageByIndex( i );
+			const newCard = ListPageController._createCard( image );
 			newCard.addEventListener( "click", () => {
-				window.location.href = `/quote.html?id=${ movieQuote.id }`;
+				window.location.href = `/image.html?id=${ image.id }`;
 			});
 			list.appendChild( newCard );
 		}
 	}
 
 	// create card
-	static _createCard( movieQuote ) {
+	static _createCard( image ) {
 		return htmlToElement(
-			`<div id="${ movieQuote.id }" class="card">
-				<div class="card-body">
-					<h5 class="card-title">${ movieQuote.quote }</h5>
-					<h6 class="card-subtitle mb-2 text-muted">${ movieQuote.movie }</h6>
-					${ ( movieQuote.author ) ? `<p>Posted by ${ ( movieQuote.author == iface.loginManager.uid ) ? "me" : movieQuote.author }</p>` : "" }
-				</div>
+			`<div class="pin" id="${ image.id }">
+				<img src="${ image.imageUrl }" alt="${ image.caption }">
+		  		<p class="caption">${ image.caption }</p>
+				${ ( image.author ) ? `<p>Posted by ${ ( image.author == iface.loginManager.uid ) ? "me" : image.author }</p>` : "" }
 			</div>` );
 	}
 
@@ -155,11 +154,11 @@ class ListPageController {
 class DetailPageManager {
 
 	// custructor
-	constructor( movieQuoteID ) {
-		this.id     = movieQuoteID;
+	constructor( imageID ) {
+		this.id     = imageID;
 		this.doc    = {};
 		this.socket = null;
-		this.fsdb   = firebase.firestore().collection( COLLECTION ).doc( movieQuoteID );
+		this.fsdb   = firebase.firestore().collection( COLLECTION ).doc( imageID );
 	}
 
 	// open database
@@ -179,14 +178,14 @@ class DetailPageManager {
 		this.socket();
 	}
 
-	// get quote
-	get quote() {
-		return this.doc.get( KEY_QUOTE );
+	// get image URL
+	get imageURL() {
+		return this.doc.get( KEY_IMAGE );
 	}
 
-	// get movie
-	get movie() {
-		return this.doc.get( KEY_MOVIE );
+	// get caption
+	get caption() {
+		return this.doc.get( KEY_CAPTION );
 	}
 
 	// get author
@@ -194,12 +193,11 @@ class DetailPageManager {
 		return this.doc.get( KEY_AUTHOR );
 	}
 
-	// update movie
-	update( quote, movie ) {
+	// update image
+	update( caption ) {
 		if ( this.author == iface.loginManager.uid ) {
 			this.fsdb.update({
-				[ KEY_QUOTE ]: quote,
-				[ KEY_MOVIE ]: movie,
+				[ KEY_CAPTION ]: caption,
 				[ KEY_LAST_UPDATED ]: firebase.firestore.Timestamp.now(),
 			}).then(() => {
 				console.log( "doc updated" );
@@ -226,27 +224,26 @@ class DetailPageController {
 	// Constucotr
 	constructor() {
 
-		let editQuoteBtn   = document.querySelector( "#submitEditQuote" );
-		let deleteQuoteBtn = document.querySelector( "#submitDeleteQuote" );
+		let editImageBtn   = document.querySelector( "#submitEditImage" );
+		let deleteImageBtn = document.querySelector( "#submitDeleteImage" );
 
 		iface.DetailPageManager.openDatabase( this.update );
 
-		$( "#editQuoteDialog" ).on( "show.bs.modal", () => {
+		$( "#editImageDialog" ).on( "show.bs.modal", () => {
 			this.update();
 		});
 
-		$( "#editQuoteDialog" ).on( "shown.bs.modal", () => {
-			document.querySelector( "#inputQuote" ).focus();
+		$( "#editImageDialog" ).on( "shown.bs.modal", () => {
+			document.querySelector( "#inputCaption" ).focus();
 		});
 
-		editQuoteBtn.addEventListener( "click", () => {
+		editImageBtn.addEventListener( "click", () => {
 			iface.DetailPageManager.update(
-					document.querySelector( "#inputQuote ").value,
-					document.querySelector( "#inputMovie" ).value
+					document.querySelector( "#inputCaption" ).value
 				);
 		});
 
-		deleteQuoteBtn.addEventListener( "click", () => {
+		deleteImageBtn.addEventListener( "click", () => {
 			iface.DetailPageManager.delete().then( () => {
 				window.location.href = `/list.html?uid=${ iface.loginManager.uid }`;
 			});
@@ -255,8 +252,8 @@ class DetailPageController {
 
 	// update
 	update() {
-		let quote     = iface.DetailPageManager.quote;
-		let movie     = iface.DetailPageManager.movie;
+		let image     = iface.DetailPageManager.imageURL;
+		let caption   = iface.DetailPageManager.caption;
 		let id        = iface.DetailPageManager.id;
 		let author    = iface.DetailPageManager.author;
 		let editFab   = document.querySelector( "#fab" );
@@ -270,24 +267,21 @@ class DetailPageController {
 			dropdown  .style.display = "none";
 		}
 
-		document.querySelector( "#inputQuote" ).value = quote;
-		document.querySelector( "#inputMovie" ).value = movie;
-		const list = document.querySelector( "#quoteListContainer" );
+		document.querySelector( "#inputCaption" ).value = caption;
+		const list = document.querySelector( "#imageListContainer" );
 		list.innerHTML = "";
 		const newCard    = DetailPageController._createCard(
-								new MovieQuote( id, quote, movie, author ) );
+								new ImageItem( id, image, caption, author ) );
 		list.appendChild( newCard );
 	}
 
 	// create card
-	static _createCard( movieQuote ) {
+	static _createCard( image ) {
 		return htmlToElement(
-			`<div id="${ movieQuote.id }" class="card">
-				<div class="card-body">
-					<h5 class="card-title">${ movieQuote.quote }</h5>
-					<h6 class="card-subtitle mb-2 text-muted">${ movieQuote.movie }</h6>
-					${ ( movieQuote.author ) ? `<p>Posted by ${ ( movieQuote.author == iface.loginManager.uid ) ? "me" : movieQuote.author }</p>` : "" }
-				</div>
+			`<div class="pin" id="${ image.id }">
+				<img src="${ image.imageUrl }" alt="${ image.caption }">
+		  		<p class="caption">${ image.caption }</p>
+				${ ( image.author ) ? `<p>Posted by ${ ( image.author == iface.loginManager.uid ) ? "me" : image.author }</p>` : "" }
 			</div>` );
 	}
 
@@ -357,6 +351,18 @@ class ControllerLoginPage {
 		button.addEventListener( "click", () => {
 			iface.loginManager.signIn();
 		});
+
+		var anonymousUser = firebase.auth().currentUser;
+		let ui = new firebaseui.auth.AuthUI( firebase.auth() );
+		ui.start( "#firebaseui-auth-container", {
+			signInFlow: 'popup',
+			signInOptions: [
+				firebase.auth.EmailAuthProvider.PROVIDER_ID,
+				firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+				firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+				firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
+			],
+		});
 	}
 }
 
@@ -383,19 +389,19 @@ class Page {
 
 		if ( isDetail || isList ) {
 			let btnLogout    = document.querySelector( "#menuLogout" );
-			let btnAllQuotes = document.querySelector( "#menuAllQuotes" );
-			let btnMyQuotes  = document.querySelector( "#menuMyQuotes" );
+			let btnAllImages = document.querySelector( "#menuAllImages" );
+			let btnMyImages  = document.querySelector( "#menuMyImages" );
 
 			btnLogout.addEventListener( "click", event => {
 				console.log( "Sign out" );
 				iface.loginManager.signOut();
 			});
 
-			btnAllQuotes.addEventListener( "click", event => {
+			btnAllImages.addEventListener( "click", event => {
 				window.location.href = "/list.html";
 			});
 
-			btnMyQuotes.addEventListener( "click", event => {
+			btnMyImages.addEventListener( "click", event => {
 				window.location.href = `/list.html?uid=${ iface.loginManager.uid}`;
 			});
 		}
