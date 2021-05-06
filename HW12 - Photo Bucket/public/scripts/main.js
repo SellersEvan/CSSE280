@@ -12,7 +12,7 @@
  */
 
 
-const AUTH_TOKEN       = "63c1ac55-cd7b-4b68-86dc-058cdaad387a";
+const AUTH_TOKEN       = "db37b700-10d8-4b2a-b86a-53c6a38175f9";
 const COLLECTION       = "Pic";													// Firestore Collection ID
 const KEY_IMAGE        = "imageUrl";											// Firestore Document Key for Image Url
 const KEY_CAPTION      = "caption";												// Firestore Document Key for Caption
@@ -144,7 +144,7 @@ class ListPageController {
 			`<div class="pin" id="${ image.id }">
 				<img src="${ image.imageUrl }" alt="${ image.caption }">
 		  		<p class="caption">${ image.caption }</p>
-				${ ( image.author ) ? `<p>Posted by ${ ( image.author == iface.loginManager.uid ) ? "me" : image.author }</p>` : "" }
+				${ ( image.author == iface.loginManager.uid ) ? `<p>Posted by me</p>` : "" }
 			</div>` );
 	}
 
@@ -281,7 +281,7 @@ class DetailPageController {
 			`<div class="pin" id="${ image.id }">
 				<img src="${ image.imageUrl }" alt="${ image.caption }">
 		  		<p class="caption">${ image.caption }</p>
-				${ ( image.author ) ? `<p>Posted by ${ ( image.author == iface.loginManager.uid ) ? "me" : image.author }</p>` : "" }
+				  ${ ( image.author == iface.loginManager.uid ) ? `<p>Posted by me</p>` : "" }
 			</div>` );
 	}
 
@@ -328,6 +328,11 @@ class AuthManager {
 	// Get User ID
 	get uid() {
 		return this.user.uid;
+	}
+
+	// get display Name
+	get displayName() {
+		return this.user.displayName;
 	}
 
 	// Is Signed Out (Boolean)

@@ -1,0 +1,71 @@
+/*
+ *   Edited by Evan Sellers <sellersew@gmail.com> on
+ *   behalf of Rose-Hulman Institute of Technology
+ *
+ *   author: Evan Sellers <sellersew@gmail.com>
+ *   date: Tue Mar 16 2021
+ *   original: N/A
+ *   file: style.css
+ *   project: N/A
+ *   purpose: N/A
+ *
+ */
+
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    background: black;
+    color: whitesmoke;
+}
+
+.container {
+    max-width: 800px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.container#content {
+    text-align: center;
+}
+
+.container#content #header {
+    margin: 0rem;
+}
+
+.container#content #contentCounterNumber1,
+.container#content #contentCounterNumber2 {
+    font-weight: bolder;
+    font-size: 5rem;
+    margin: 2rem;
+}
+
+button {
+    border: none;
+    background: white;
+    padding: 0.5rem 2rem;
+    margin: 0rem 0.5rem;
+    font-weight: bold;
+    outline: none;
+    border-radius: 2rem;
+}
+
+button.square {
+    line-height: 0;
+    text-anchor: unset;
+    padding: 1rem;
+}
+
+.vertical-align {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
