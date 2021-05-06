@@ -17,10 +17,3 @@ new counter(
     document.querySelector( "#actionResetCounter1" ),
     document.querySelector( "#contentCounterNumber1" )
 );
-
-new counter(
-    document.querySelector( "#actionIncrementCounter2" ),
-    document.querySelector( "#actionDecreaseCounter2" ),
-    document.querySelector( "#actionResetCounter2" ),
-    document.querySelector( "#contentCounterNumber2" )
-);

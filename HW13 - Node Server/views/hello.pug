@@ -1,12 +1,29 @@
-html
-    head 
-        title= title
-        link( rel="stylesheet" href="/static/style.css" )
-    body
-        div.button-group
-            button#actionIncrementCounter1 +
-            button#actionDecreaseCounter1 -
-            button#actionResetCounter1 Reset
-        div#counterText count = #{ count }
-        script( src="/static/counter.js" )
-        script( src="/static/main.js" )
+meta(charset='UTF-8')
+meta(http-equiv='X-UA-Compatible' content='IE=edge')
+meta(name='viewport' content='width=device-width,initial-scale=1')
+title Hello Button
+link(rel='stylesheet' href='/static/style.css')
+script(defer, src='/static/counter.js')
+script(defer, src='/static/script.js')
+.container.vertical-align#content
+    h1#header Hello Button
+    p Two independent Counters
+    br
+    br
+    div.flex
+        div
+            h2 Counter
+            div#contentCounterNumber1= count
+            div
+                button.square#actionIncrementCounter1 +
+                button.square#actionDecreaseCounter1 -
+                button#actionResetCounter1 Reset
+                form( action="/pug/hello", method="POST", onSubmit="saveCurrentValue()" )
+                    input( type="hidden", id="saveCounter", name="count", value="" )
+                    button( type="submit" ) Save
+    
+    script( type="text/javascript" ).
+        function saveCurrentValue() {
+            let count = parseInt( document.querySelector( "#contentCounterNumber1" ).innerText );
+            document.querySelector( "#saveCounter" ).value = count;
+        }

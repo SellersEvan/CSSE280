@@ -69,3 +69,7 @@ button.square {
     display: flex;
     justify-content: space-around;
 }
+
+form {
+    display: inline-block;
+}

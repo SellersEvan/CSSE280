@@ -13,7 +13,6 @@
 
 
 class counter {
-    value;
     displayElmement;
 
     constructor( incrementBtn, decreaseBtn, resetBtn, displayElmement ) {
@@ -21,26 +20,25 @@ class counter {
         decreaseBtn.addEventListener( "click", () => { this.decrease() } );
         resetBtn.addEventListener( "click", () => { this.reset() } );
         this.displayElmement = displayElmement;
-        this.reset();
-        this.display();
+    }
+
+    getValue() {
+        return parseInt( this.displayElmement.innerText );
     }
 
     increment() {
-        this.value++;
-        this.display();
+        this.display( this.getValue() + 1 );
     }
 
     decrease() {
-        this.value--;
-        this.display();
+        this.display( this.getValue() - 1 );
     }
 
     reset() {
-        this.value = 0;
-        this.display();
+        this.display( 0 );
     }
 
-    display() {
-        this.displayElmement.innerText = this.value;
+    display( value ) {
+        this.displayElmement.innerText = value;
     }
 }
