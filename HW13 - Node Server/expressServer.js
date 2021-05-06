@@ -1,6 +1,8 @@
 const express = require( "express" );
 var app = express();
 
+let counter = 0;
+
 app.use( "/static", express.static( "public" ) );
 
 app.get( "/hello", ( req, res ) => {
@@ -22,5 +24,29 @@ app.get( "/users/:username", ( req, res ) => {
     let username = req.params.username;
     res.send( `<h1>Profile for ${ username }</h1>` );
 });
+
+app.set( "views", "./views" );
+app.set( "view engine", "pug" );
+
+app.get( "/pug", ( req, res ) => {
+    // let array =  [
+    //     { "name": "Bob" },
+    //     { "name": "Dave" },
+    //     { "name": "Jim" }
+    // ]
+    // res.render( "index", {
+    //     "title": "hey",
+    //     "message": "Hello There!",
+    //     arr: array
+    // } )   
+    res.render( "index" );
+});
+
+// app.get( "/pug/hello", ( req, res ) => {
+//     res.render( "hello", {
+//         "title": "Hello Button",
+//         "count": counter
+//     }); 
+// });
 
 app.listen( 3000 );

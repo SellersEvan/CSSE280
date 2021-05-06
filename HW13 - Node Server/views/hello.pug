@@ -1,0 +1,12 @@
+html
+    head 
+        title= title
+        link( rel="stylesheet" href="/static/style.css" )
+    body
+        div.button-group
+            button#actionIncrementCounter1 +
+            button#actionDecreaseCounter1 -
+            button#actionResetCounter1 Reset
+        div#counterText count = #{ count }
+        script( src="/static/counter.js" )
+        script( src="/static/main.js" )
