@@ -11,9 +11,9 @@ app.use('/api/', bodyParser.urlencoded({
 app.use('/api/', bodyParser.json());
 
 // Data from a file.
-let data = [];
+var data = [];
 const serverSideStorage = "../data/db.json";
-fs.readFile(serverSideStorage, function (err, buf) {
+fs.readFile(serverSideStorage, (err, buf) => {
     if (err) {
         console.log("error: ", err);
     } else {
@@ -22,12 +22,13 @@ fs.readFile(serverSideStorage, function (err, buf) {
     console.log("Data read from file.");
 });
 
-function saveToServer(data) {
-    fs.writeFile(serverSideStorage, JSON.stringify(data), function (err, buf) {
+function saveToServer( data ) {
+    fs.writeFile( serverSideStorage, JSON.stringify( data ),  ( err, buf ) => {
         if (err) {
             console.log("error: ", err);
         } else {
             console.log("Data saved successfully!");
+            console.log( data );
         }
     })
 }
@@ -44,8 +45,12 @@ function saveToServer(data) {
  *   side effects:              saves the word onto the data array
  *   response:                  {"word": "...", "index": #}
  */
-
-// TODO: Add your code here.
+app.post( "/api/admin/add", ( req, res ) => {
+    data.push( req.body.word );
+    saveToServer( data );
+    res.send( { "word": req.body.word, "index": data.length - 1 } );
+    res.end();
+});
 
 
 /**
@@ -56,8 +61,10 @@ function saveToServer(data) {
  *   side effects:              none (as is the case for all GETs)
  *   response:                  {"words": ["...", "..."], "length": #}
  */
-
-// TODO: Add your code here.
+app.get( "/api/admin/words", ( req, res ) => {
+    res.send( { "words": data, "length": data.length } );
+    res.end();
+});
 
 
 /**
@@ -68,8 +75,10 @@ function saveToServer(data) {
  *    side effects:              none (as is the case for all GETs)
  *    response:                  {"word": "...", "index": #}
  */
-
-// TODO: Add your code here.
+ app.get( "/api/admin/word/:id", ( req, res ) => {
+    res.send( { "word": data[ req.params.id ], "index": req.params.id } );
+    res.end();
+});
 
 
 /**
@@ -80,8 +89,12 @@ function saveToServer(data) {
  *    side effects:              saves the new word into that location in the data array
  *    response:                  {"word": "...", "index": #}
  */
-
-// TODO: Add your code here.
+ app.put( "/api/admin/word/:id", ( req, res ) => {
+    data[ req.params.id ] = req.body.word
+    saveToServer( data );
+    res.send( { "word": data[ req.params.id ], "index": req.params.id } );
+    res.end();
+});
 
 
 /**
@@ -92,8 +105,12 @@ function saveToServer(data) {
  *    side effects:              deletes the new word at that index from the data array
  *    response:                  {"index": #}  (i.e. the index that got deleted)
  */
-
-// TODO: Add your code here.
+ app.delete( "/api/admin/word/:id", ( req, res ) => {
+    data.splice( req.params.id, 1 );
+    saveToServer( data );
+    res.send( { "index": req.params.id } );
+    res.end();
+});
 
 
 
@@ -109,8 +126,10 @@ function saveToServer(data) {
  *    side effects:              none (as is the case for all GETs)
  *    response:                  {"length": #}
  */
-
-// TODO: Add your code here.
+app.get( "/api/player/numwords", ( req, res ) => {
+    res.send( { "length": data.length } );
+    res.end();
+});
 
 
 /**
@@ -121,8 +140,13 @@ function saveToServer(data) {
  *    side effects:              none (as is the case for all GETs)
  *    response:                  {"length": #, "index": #}
  */
-
-// TODO: Add your code here.
+app.get( "/api/player/wordlength/:id", ( req, res ) => {
+    res.send({
+            "length": data[ req.params.id ].length,
+            "index": req.params.id
+        });
+    res.end();
+});
 
 
 /**
@@ -136,10 +160,18 @@ function saveToServer(data) {
  *     notice the length and index are repeat info like Word Length would give.
  *     the interesting field is locations which is always an array, but could be an empty array [].
  */
-
-// TODO: Add your code here.
-
-
+app.get( "/api/player/guess/:id/:letter", ( req, res ) => {
+    let lt = req.params.letter.toLowerCase();
+    let wd = data[ req.params.id ].toLowerCase();
+    let ps = wd.split("").map( ( c, i ) => { if ( c == lt ) return i; } ).filter( i => { if ( i >= 0 ) return true; } );
+    res.send( {
+            "letter": req.params.letter,
+            "length": data[ req.params.id ].length,
+            "index": req.params.id,
+            "locations": ps
+        });
+    res.end();
+});
 
 
 app.listen(3000);
