@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+	<link rel="stylesheet" href="styles/bootstrap-material-design.min.css">
+	<link rel="stylesheet" href="styles/main.css">
+	<title>Tic Tac Toe</title>
+</head>
+
+<body>
+	<nav class="navbar navbar-light fixed-top">
+		<div class="container">
+			<a class="navbar-brand" href="#">Tic Tac Toe</a>
+		</div>
+
+	</nav>
+	<div id="mainPage" class="container page-container">
+
+		<h1 class="text-center" id="ttt-data-result">X Wins</h1>
+		<div class="ttt-gameboard">
+      
+			<div data-ttt-index="0" class="ttt-action-select borderright borderbottom">X</div>
+			<div data-ttt-index="1" class="ttt-action-select borderleft borderright borderbottom">O</div>
+			<div data-ttt-index="2" class="ttt-action-select borderleft borderbottom"> </div>
+		  
+			<div data-ttt-index="3" class="ttt-action-select borderright bordertop borderbottom">O</div>
+			<div data-ttt-index="4" class="ttt-action-select borderleft borderright bordertop borderbottom">X</div>
+			<div data-ttt-index="5" class="ttt-action-select borderleft bordertop borderbottom"> </div>
+		  
+			<div data-ttt-index="6" class="ttt-action-select borderright bordertop"> </div>
+			<div data-ttt-index="7" class="ttt-action-select borderleft borderright bordertop"> </div>
+			<div data-ttt-index="8" class="ttt-action-select borderleft bordertop">X</div>
+		  
+			<button id="ttt-action-reset" class="btn">New Game</button>
+		  
+		</div>
+
+	</div>
+	<script src="scripts/jquery.min.js"></script>
+	<script src="scripts/popper.js"></script>
+	<script src="scripts/bootstrap-material-design.js"></script>
+	<script>$("body").bootstrapMaterialDesign();</script>
+	<script src="scripts/TicTacToe.js"></script>
+	<script src="scripts/PageController.js"></script>
+	<script src="scripts/main.js"></script>
+</body>
+
+</html>
