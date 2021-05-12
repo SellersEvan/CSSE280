@@ -62,7 +62,8 @@ class TicTacToe {
 	}
 
 	_computerTurn() {
-		fetch( `/api/getmove/${ this.boardString }` )
+		// http://localhost:5001/sellersew-cloudfunctions/us-central1/api/getmove/
+		fetch( `https://us-central1-fisherds-cloudfunctions.cloudfunctions.net/api/getmove/${ this.boardString }` )
 			.then( res => {
 				return res.json();
 			}).then( data => {
