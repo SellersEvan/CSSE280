@@ -161,8 +161,8 @@ app.get( "/api/player/wordlength/:id", ( req, res ) => {
  *     the interesting field is locations which is always an array, but could be an empty array [].
  */
 app.get( "/api/player/guess/:id/:letter", ( req, res ) => {
-    let lt = req.params.letter.toLowerCase();
-    let wd = data[ req.params.id ].toLowerCase();
+    let lt = req.params.letter.toUpperCase();
+    let wd = data[ req.params.id ].toUpperCase();
     let ps = wd.split("").map( ( c, i ) => { if ( c == lt ) return i; } ).filter( i => { if ( i >= 0 ) return true; } );
     res.send( {
             "letter": req.params.letter,

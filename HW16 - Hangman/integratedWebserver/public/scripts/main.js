@@ -44,24 +44,31 @@ rhit.AdminController = class {
 		};
 	}
 
-	add(word) {
+	add( word ) {
 		if (!word) {
 			console.log("No word provided.  Ignoring request.");
 			return;
 		}
-		console.log(`TODO: Add the word ${word} to the backend`);
-
-		// TODO: Add your code here.
-
+		fetch( adminApiUrl + "add", {
+			"method": "POST",
+			"headers": { "Content-Type": "application/json" },
+			"body": JSON.stringify( { "word": word } )
+		}).then( () =>  {
+			console.log( `Successfully added ${ word }.` );
+		}).catch( err => console.log( err ) );
 	}
 
 	readAll() {
-		console.log(`TODO: Read all the words from the backend, then update the screen.`);
-
-		// TODO: Add your code here.
-
-		// Hint for something you will need later in the process (after backend call(s))
-		document.querySelector("#readAllOutput").innerHTML = "Results go here."
+		fetch( adminApiUrl + "words" ).then( data => {
+			return data.json();
+		}).then( data => {
+			let result = "";
+			data[ "words" ].forEach( ( word, index ) => {
+				result += word;
+				if ( index < data[ "words" ].length - 1 ) result += ",";
+			});
+			document.querySelector( "#readAllOutput" ).innerHTML = result;
+		}).catch( err => console.log( err ) );
 	}
 
 	readSingle(index) {
@@ -69,12 +76,11 @@ rhit.AdminController = class {
 			console.log("No index provided.  Ignoring request.");
 			return;
 		}
-		console.log(`TODO: Read the word for index ${index} from the backend, then update the screen.`);
-
-		// TODO: Add your code here.
-
-		// Hint for something you will need later in the process (after backend call(s))
-		document.querySelector("#readSingleOutput").innerHTML = "Result goes here"
+		fetch( adminApiUrl + "word/" + index ).then( data => {
+			return data.json();
+		}).then( data => {
+			document.querySelector("#readSingleOutput").innerHTML = data[ "word" ];
+		}).catch( err => console.log( err ) );
 	}
 
 	update(index, word) {
@@ -86,10 +92,12 @@ rhit.AdminController = class {
 			console.log("No word provided.  Ignoring request.");
 			return;
 		}
-		console.log(`TODO: Update the word ${word} at index ${index} on the backend.`);
 
-		// TODO: Add your code here.
-
+		fetch( adminApiUrl + "word/" + index, {
+			"method": "PUT",
+			"headers": { "Content-Type": "application/json" },
+			"body": JSON.stringify( { "word": word } )
+		}).catch( err => console.log( err ) );
 	}
 
 	delete(index) {
@@ -97,17 +105,14 @@ rhit.AdminController = class {
 			console.log("No index provided.  Ignoring request.");
 			return;
 		}
-		console.log(`TODO: Delete the word at index ${index} from the backend.`);
-
-		// TODO: Add your code here.
-
+		fetch( adminApiUrl + "word/" + index, {
+			"method": "DELETE"
+		}).catch( err => console.log( err ) );
 	}
 }
 
 rhit.PlayerController = class {
 	constructor() {
-		// Note to students, you can declare instance variables here (or later) to track the state for the game in progress.
-
 		// Connect the Keyboard inputs
 		const keyboardKeys = document.querySelectorAll(".key");
 		for (const keyboardKey of keyboardKeys) {
@@ -124,35 +129,60 @@ rhit.PlayerController = class {
 
 	handleNewGame() {
 		console.log(`TODO: Create a new game and update the view (after the backend calls).`);
+		this.incorrect = [];
+		this.correct   = [];
+		this.index     = -1;
+		this.length    = -1;
 
-		// TODO: Add your code here.
-
+		fetch( playerApiUrl + "numwords/" )
+			.then( data => { return data.json() } )
+			.then( data => {
+				this.index  = Math.floor( Math.random() * data[ "length" ] );
+				fetch( playerApiUrl + "wordlength/" + this.index )
+					.then( data => { return data.json() } )
+					.then( data => {
+						this.length = data[ "length" ];
+						for ( let i = 0; i < this.length; i++ )
+							this.correct.push( "_" );
+						this.updateView();
+					}).catch( err => console.log( err ) );
+			}).catch( err => console.log( err ) );
 	}
 
-	handleKeyPress(keyValue) {
-		console.log(`You pressed the ${keyValue} key`);
-
-		// TODO: Add your code here.
-
+	handleKeyPress( keyValue ) {
+		console.log( `You pressed the ${keyValue} key` );
+		fetch( playerApiUrl + "guess/" + this.index + "/" + keyValue )
+			.then( data => { return data.json() } )
+			.then( data => {
+				if ( data[ "locations" ].length == 0 ) {
+					this.incorrect.push( data[ "letter" ] );
+				} else {
+					data[ "locations" ].forEach( index => {
+						this.correct[ index ] = data[ "letter" ];
+					});
+				}
+				this.updateView();
+			}).catch( err => console.log( err ) );
 	}
+
+
 
 	updateView() {
-		console.log(`TODO: Update the view.`);
-		// TODO: Add your code here.
+		let correct   = "";
+		let incorrect = "";
 
+		this.correct.forEach( letter => { correct += letter } );
+		this.incorrect.forEach( letter => { incorrect += letter } );
+		document.querySelector("#displayWord").innerHTML = correct;
+		document.querySelector("#incorrectLetters").innerHTML = incorrect;
 
-		// Some hints to help you with updateView.
-		// 	document.querySelector("#displayWord").innerHTML = "____";
-		// 	document.querySelector("#incorrectLetters").innerHTML = "ABCDE";
+		document.querySelectorAll( ".key" ).forEach( elm => {
+			let key = elm.getAttribute( "data-key" );
+			let useC  = this.correct.includes( key );
+			let useI  = this.incorrect.includes( key );
+			elm.style.visibility = ( useC || useI ) ? "hidden" : "initial";
+		});
 
-		// 	const keyboardKeys = document.querySelectorAll(".key");
-		// 	for (const keyboardKey of keyboardKeys) {
-		// 		if (some condition based on keyboardKey.dataset.key) {
-		// 			keyboardKey.style.visibility = "hidden";
-		// 		} else {
-		// 			keyboardKey.style.visibility = "initial";
-		// 		}
-		// 	}
 	}
 }
 
