@@ -4,6 +4,7 @@ const fs = require("fs");
 
 // Setup
 const app = express();
+app.use( cors() );
 app.use('/', express.static("public"));
 app.use('/api/', bodyParser.urlencoded({
     extended: true

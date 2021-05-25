@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+	<link rel="stylesheet" href="styles/bootstrap-material-design.min.css">
+	<link rel="stylesheet" href="styles/main.css">
+	<title>PiSimulator</title>
+</head>
+
+<body>
+	<nav class="navbar navbar-dark fixed-top">
+		<div class="container">
+			<a class="navbar-brand" href="#">PiSimulator</a>
+		</div>
+	</nav>
+	<div id="mainPage" class="container page-container">
+
+		<div class="card">
+			<div class="card-body">
+				<div class="d-flex">
+					<div style="flex-grow: 1;">
+						<h5 class="card-title mb-0">Pi Status Get</h5>
+						<p class="mt-0 text-muted"><small>Status is automaticlly updated when you set status information.</small></p>
+					</div>
+					<div>
+						<button type="button" class="btn btn-primary" id="actionRefreshStatus">Refresh</button>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-12 col-md-3">
+						<p><b>Push Button</b></p>
+						<p>Button: <b id="dataButtonState">LOW</b></p>
+					</div>
+
+					<div class="col-12 col-md-3">
+						<p><b>LED States</b></p>
+						<p>Red:    <b id="dataLedStateRed">LOW</b></p>
+						<p>Yellow: <b id="dataLedStateYellow">LOW</b></p>
+						<p>Green:  <b id="dataLedStateGreen">LOW</b></p>
+					</div>
+
+					<div class="col-12 col-md-3">
+						<p><b>Servo Angles</b></p>
+						<p>Joint 1:  <b id="dataJoint1">0</b></p>
+						<p>Joint 2:  <b id="dataJoint2">0</b></p>
+						<p>Joint 3:  <b id="dataJoint3">0</b></p>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+		<div class="card mt-5">
+			<div class="card-body">
+				<div class="d-flex">
+					<div style="flex-grow: 1;">
+						<h5 class="card-title mb-0">Pi Status Set</h5>
+					</div>
+					<div>
+						<button type="button" class="btn btn-primary" id="actionSetServos">Set Servos</button>
+					</div>
+				</div>
+
+
+
+				<div class="row">
+
+					<div class="col-12 col-md-3">
+						<p><b>LED States</b></p>
+						<div class="switch">
+							<label>
+							  <input type="checkbox" id="inputLedStateRed">
+							  <span class="lever"></span> Red Indicator
+							</label>
+						</div>
+						<div class="switch">
+							<label>
+							  <input type="checkbox" id="inputLedStateYellow">
+							  <span class="lever"></span>Yellow Indicator
+							</label>
+						</div>
+						<div class="switch">
+							<label>
+							  <input type="checkbox" id="inputLedStateGreen">
+							  <span class="lever"></span>Green Indicator
+							</label>
+						</div>
+					</div>
+
+					<div class="col-12 col-md-3">
+						<p><b>Servo Angles</b></p>
+
+						<div class="row align-items-center">
+							<div class="col-3 pr-0">
+								<label for="inputJoint1" class="text-muted mb-0 mr-0"><small>Joint 1</small></label>
+							</div>
+							<div class="col-9 pl-0">
+								<div class="md-form mt-0">
+									<input type="number" class="form-control" id="inputJoint1" placeholder="Joint 1 Angle">
+								</div>
+							</div>
+						</div>
+
+						<br>
+
+						<div class="row align-items-center">
+							<div class="col-3 pr-0">
+								<label for="inputJoint2" class="text-muted mb-0 mr-0"><small>Joint 2</small></label>
+							</div>
+							<div class="col-9 pl-0">
+								<div class="md-form mt-0">
+									<input type="number" class="form-control" id="inputJoint2" placeholder="Joint 2 Angle">
+								</div>
+							</div>
+						</div>
+
+						<br>
+
+						<div class="row align-items-center">
+							<div class="col-3 pr-0">
+								<label for="inputJoint3" class="text-muted mb-0 mr-0"><small>Joint 3</small></label>
+							</div>
+							<div class="col-9 pl-0">
+								<div class="md-form mt-0">
+									<input type="number" class="form-control" id="inputJoint3" placeholder="Joint 3 Angle">
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+
+
+	</div>
+	<script src="scripts/jquery.min.js"></script>
+	<script src="scripts/popper.js"></script>
+	<script src="scripts/bootstrap-material-design.js"></script>
+	<script>$("body").bootstrapMaterialDesign();</script>
+	<script src="scripts/main.js"></script>
+</body>
+
+</html>
